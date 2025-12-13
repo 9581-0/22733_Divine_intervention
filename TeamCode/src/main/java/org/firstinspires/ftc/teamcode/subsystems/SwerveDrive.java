@@ -62,7 +62,7 @@ public class SwerveDrive {
         // Only bottom motors are reversed (Coaxial standard for Diffy Swerve usually)
         mod1m2.setDirection(DcMotorSimple.Direction.REVERSE);
         mod2m2.setDirection(DcMotorSimple.Direction.REVERSE);
-        mod3m2.setDirection(DcMotorSimple.Direction.REVERSE);
+        mod3m2.setDirection(DcMotorSimple.Direction.FORWARD);
         
         // CRITICAL FIX: mod3m1 must be FORWARD. 
         // In the broken code, it was REVERSE, which causes the module to fight itself.

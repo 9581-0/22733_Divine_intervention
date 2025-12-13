@@ -8,19 +8,19 @@ public class SwerveTeleOpConfig {
     // =========================================================
     // 1. PID COEFFICIENTS (Edit these live to tune holding power)
     // =========================================================
-    public static double Kp = 0.1;
-    public static double Kd = 0.002;
+    public static double Kp = 0.01;
+    public static double Kd = 0.0;
     public static double Ki = 0; // Usually 0 for drive modules
     public static double Kf = 0;
-    public static double Kl = 0.5; // Integral limit
+    public static double Kl = 0.0; // Integral limit
 
     // =========================================================
     // 2. MODULE OFFSETS (Values from your Zeroing OpMode)
     // =========================================================
     // Enter the raw angles you read when wheels are pointing FORWARD
-    public static double module1Adjust = 0; 
-    public static double module2Adjust = 0;
-    public static double module3Adjust = 0;
+    public static double module1Adjust = -125;
+    public static double module2Adjust = 70;
+    public static double module3Adjust = -110;
 
     // =========================================================
     // 3. DRIVER PREFERENCES
