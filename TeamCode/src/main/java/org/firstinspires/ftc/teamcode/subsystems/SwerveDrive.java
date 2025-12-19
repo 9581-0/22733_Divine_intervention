@@ -61,10 +61,8 @@ public class SwerveDrive {
         // Only bottom motors are reversed (Coaxial standard for Diffy Swerve usually)
         mod1m2.setDirection(DcMotorSimple.Direction.REVERSE);
         mod2m2.setDirection(DcMotorSimple.Direction.FORWARD);
-        mod3m2.setDirection(DcMotorSimple.Direction.REVERSE);
+        mod3m2.setDirection(DcMotorSimple.Direction.FORWARD);
         
-        // CRITICAL FIX: mod3m1 must be FORWARD. 
-        // In the broken code, it was REVERSE, which causes the module to fight itself.
 
         // --- IMU ---
         imu = hardwareMap.get(IMU.class, "imu");
@@ -214,6 +212,11 @@ public class SwerveDrive {
         telemetry.addData("Target", targetAngle);
         telemetry.addData("M1 Pos", mod1P);
         telemetry.addData("M1 Error", m1Eff[0] - mod1P);
+        telemetry.addData("M2 Pos", mod2P);
+        telemetry.addData("M2 Error", m2Eff[0] - mod2P);
+        telemetry.addData("M3 Pos", mod3P);
+        telemetry.addData("M3 Error", m3Eff[0] - mod3P);
+
     }
 
 
