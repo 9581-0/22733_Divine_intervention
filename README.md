@@ -1,16 +1,6 @@
-Hi! This is the crappy thing im forced to debug to make my 3 pod diffy work
-
-somethings wrong with mod3, the other two work fine
-
-Not sure what it is, but I know that it probably isnt the encoder for mod 3, as i plugged in mod 1 to mod 3's ports on the expansion hub and it showed the same behavior
-
-1. its an expansion hub issue (its Analog JST-PH connecor is sorta off center with the casing which may interfere with readings? but unlikely to be the issue as it seems to
-give readings ok.  it could just be that the expansion hub is bricked
-
-2. its a code issue, and its treating module 3 weirdly.
-
-3. its a loop time issue, which idk how to measure.  
-
+FIELD CENTRIC BROKEN
+LOOP TIMES UNMEASURED
+NOTHING ELSE EXCEPT DRIVE IS CODED AAAAAAAAAAAAAAAGHHHH
 
 
 
