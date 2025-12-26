@@ -4,38 +4,35 @@ public class swerveKinematics {
 
     public double[] calculate(double forward, double strafe, double rotate, double imu, boolean fieldcentric, double radius){
 
-        fieldcentric = true;
-
+        // FIX: Removed "fieldcentric = true;" here so the user can actually toggle it.
 
         // 1. Field Centric Adjustment
         double strafe1 = strafe;
         double forward1 = forward;
 
         if(fieldcentric) {
-            strafe1 = Math.cos(Math.toRadians(imu)) * strafe - Math.sin(Math.toRadians(imu)) * forward;
-            forward1 = Math.sin(Math.toRadians(imu)) * strafe + Math.cos(Math.toRadians(imu)) * forward;
+            // Optimization: Convert once
+            double rad = Math.toRadians(imu);
+            double sin = Math.sin(rad);
+            double cos = Math.cos(rad);
+
+            strafe1 = cos * strafe - sin * forward;
+            forward1 = sin * strafe + cos * forward;
         }
 
         // 2. Kinematics (Wheel Specific Vectors)
-        // Robot Geometry: Square missing Top-Left corner.
-        // We assume Center of Rotation (0,0) is the middle of the virtual square.
-        // Scaling: 'radius' adjusts the rotation speed relative to drive speed.
-
         // Vx = strafe - rot * Ry
         // Vy = forward + rot * Rx
 
         // Module 1: Bottom Right (X=1, Y=-1)
-        // Rx = 1, Ry = -1
         double mod1strafe = strafe1 - (rotate * radius * -1.0);
         double mod1forward = forward1 + (rotate * radius * 1.0);
 
         // Module 2: Bottom Left (X=-1, Y=-1)
-        // Rx = -1, Ry = -1
         double mod2strafe = strafe1 - (rotate * radius * -1.0);
         double mod2forward = forward1 + (rotate * radius * -1.0);
 
         // Module 3: Top Right (X=1, Y=1)
-        // Rx = 1, Ry = 1
         double mod3strafe = strafe1 - (rotate * radius * 1.0);
         double mod3forward = forward1 + (rotate * radius * 1.0);
 
