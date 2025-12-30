@@ -24,12 +24,14 @@ public class Shooter {
     public Shooter(HardwareMap hardwareMap) {
         ShooterMotor = new myDcMotorEx(hardwareMap.get(DcMotorEx.class, "SM"));
         ShooterMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        ShooterMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ShooterMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         ShooterMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void shoot() {
-        ShooterMotor.setVelocity(target_rpm/ticks_per_rev);
+    public void shoot(boolean shooting) {
+        if (shooting) {
+            ShooterMotor.setVelocity(target_rpm / ticks_per_rev);
+        } else ShooterMotor.setPower(0);
 }
 
 }

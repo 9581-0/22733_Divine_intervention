@@ -29,8 +29,6 @@ public class SwerveDrive {
 
     private final swerveKinematics kinematics = new swerveKinematics();
 
-    // References
-    private double mod1reference = 0, mod2reference = 0, mod3reference = 0;
     private double imuOffset = 180;
 
     // Safety Variables
@@ -121,9 +119,10 @@ public class SwerveDrive {
         double mod2power = output[1];
         double mod3power = output[2];
 
-        mod1reference = output[3];
-        mod2reference = output[4];
-        mod3reference = output[5];
+        // References
+        double mod1reference = output[3];
+        double mod2reference = output[4];
+        double mod3reference = output[5];
 
         // 5. Locking Logic
         if (forward != 0 || strafe != 0 || rot != 0 || !initialized) {
