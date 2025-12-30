@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.utility.myDcMotorEx;
 
 public class Shooter {
 
-    /*private final myDcMotorEx ShooterMotor;
+    private final myDcMotorEx ShooterMotor;
 
     private final PIDcontroller ShooterPID = new PIDcontroller(0, 0, 0, 0, 0);
 
@@ -26,10 +26,10 @@ public class Shooter {
         ShooterMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         ShooterMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         ShooterMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        ShooterMotor.setVelocity(target_rpm/ticks_per_rev);
     }
 
+    public void shoot() {
+        ShooterMotor.setVelocity(target_rpm/ticks_per_rev);
+}
 
-
-*/}
+}

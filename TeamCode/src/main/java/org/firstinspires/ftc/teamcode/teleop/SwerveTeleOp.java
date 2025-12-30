@@ -4,6 +4,8 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.SwerveDrive;
 
 @TeleOp(name = "Swerve TeleOp (Final)", group = "Main")
@@ -14,7 +16,7 @@ public class SwerveTeleOp extends LinearOpMode {
         // Setup Telemetry (Phone + Dashboard)
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         
-        // Init Subsystem
+        // Init Subsystems
         SwerveDrive swerve = new SwerveDrive(telemetry, hardwareMap);
 
         telemetry.addData("Status", "Ready. Run 'Module Zeroing' if wheels are not aligned.");
@@ -54,6 +56,14 @@ public class SwerveTeleOp extends LinearOpMode {
                 swerve.resetIMU();
                 gamepad1.rumble(500);
             }
+
+
+
+
+
+
+
+
 
             // 4. Update Telemetry
             telemetry.update();
