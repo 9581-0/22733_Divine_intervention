@@ -11,14 +11,12 @@ public class Spindexer {
 
      public Spindexer(HardwareMap hardwareMap){
          IndexServoL = hardwareMap.get(Servo.class, "IndexServoL");
-         IndexServoR = hardwareMap.get(Servo.class, "IndexServoR")
+         IndexServoR = hardwareMap.get(Servo.class, "IndexServoR");
      }
 
     public void homing(){}
 
     public void Spin2win(){}
-
-    public void
 
 
 
