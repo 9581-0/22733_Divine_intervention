@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class Intake extends Feature {
  
     private DcMotorEx motor;
+    private boolean needsUpdate = false;
     private double pow = 0;
  
     public Intake (HardwareMap map) {
@@ -20,11 +21,15 @@ public class Intake extends Feature {
  
     @Override
     public void update() {
-        motor.setPower(pow);
+        if (needsUpdate) {
+            motor.setPower(pow);
+            needsUpdate = false;
+        }
     }
  
     public void setVelocity(double target) {
         pow = target;
+        needsUpdate = true;
     }
  
     @Override
