@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 
 import org.firstinspires.ftc.teamcode.util.drivers.REVColorSensorV3;
 import org.firstinspires.ftc.teamcode.util.PIDF;
-import org.firstinspires.ftc.teamcode.util.wrappers.ELCv2;
+import org.firstinspires.ftc.teamcode.util.wrappers.Sensorange;
 import org.firstinspires.ftc.teamcode.util.statemachine.State;
 import org.firstinspires.ftc.teamcode.util.statemachine.StateMachine;
 
@@ -18,7 +18,7 @@ public class Spindexer {
     private REVColorSensorV3 colora;
     private REVColorSensorV3 colorb;
     private REVColorSensorV3 colorc;
-    private ELCv2 encoder;
+    private Sensorange encoder;
 
     private StateMachine state;
     public static double P = 0.05, D = 0.001;
@@ -30,12 +30,12 @@ public class Spindexer {
     private boolean requestFire, requestSort, requestIdle = false;
     private boolean sort = false;
 
-    
-    public Spindexer(HardwareMap map){
-        LServo = map.get(Servo.class, "IndexServoL");
-        RServo = map.get(Servo.class, "IndexServoR");
 
-        encoder = new ELCv2("encoder", map);
+    public Spindexer(HardwareMap map){
+        LServo = map.get(CRServo.class, "IndexServoL");
+        RServo = map.get(CRServo.class, "IndexServoR");
+
+        encoder = new Sensorange("encoder", map);
 
         pid.setTolerance(3);
 
@@ -88,7 +88,7 @@ public class Spindexer {
         if (runPID()){
             stored = scanDexer();
             if (sort) {
-                int p, g = 0;
+                int p = 0, g = 0;
                 for (String s : stored) {
                     p += s.equals("P") ? 1 : 0;
                     g += s.equals("G") ? 1 : 0;
@@ -119,11 +119,13 @@ public class Spindexer {
     }
 
     private void moveEmptySlot(){
+        double targetAdd = 0;
         target += switch(stored.indexOf("E")) {
             case 0 -> 120;
             case 2 -> 240;
             default -> 0;
         };
+        target += targetAdd;
     }
 
     private void setPower(double pow){
@@ -140,12 +142,10 @@ public class Spindexer {
     }
 
     private String detectColor(REVColorSensorV3 sensor) {
-        int red = sensor.red();
-        int green = sensor.green();
-        int blue = sensor.blue();
+        int[] color = sensor.readLSRGB();
 
-        if (green > red && green > blue && green > 100) {return "G";}
-        if (blue > 70 && red > 70 && green < 70) {return "P";}
+        if (color[1] > color[0] && color[1] > color[0] && color[1] > 100) {return "G";}
+        if (color[2] > 70 && color[0] > 70 && color[1] < 70) {return "P";}
         return "E";
     }
 
@@ -159,10 +159,13 @@ public class Spindexer {
 
     @Override
     public String toString(){
+        float[] ca = colora.readLSRGB();
+        float[] cb = colorb.readLSRGB();
+        float[] cc = colorc.readLSRGB();
         return "Spindexer {" +
-                "sensorA =" + colora.red() + " " + colora.green() + " " + colora.blue() + stored.get(0) +
-                "sensorB =" + colorb.red() + " " + colorb.green() + " " + colorb.blue() + stored.get(1) +
-                "sensorC =" + colorc.red() + " " + colorc.green() + " " + colorc.blue() + stored.get(2)
+                "sensorA =" + ca[0] + " " + ca[1] + " " + ca[2] + stored.get(0) +
+                "sensorB =" + cb[0] + " " + cb[1] + " " + cb[2] + stored.get(1) +
+                "sensorC =" + cc[0] + " " + cc[1] + " " + cc[2] + stored.get(2)
                 + "}";
     }
 }

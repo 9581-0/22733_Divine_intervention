@@ -5,17 +5,20 @@ import androidx.annotation.NonNull;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class ELCv2 extends PosEncoder {
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+
+public class Sensorange extends PosEncoder {
 
     private AnalogInput encoder;
     private double lastCheckedPosition, fullRotations;
     private Double currentAbsoluteAngle;
 
 
-    public ELCv2 (String name, HardwareMap map) {
+    public Sensorange (String name, HardwareMap map) {
         super (name);
         encoder = map.get(AnalogInput.class, name);
-        lastCheckedPosition = (encoder.getVoltage() / 3.3) * 360;
+        // sensorange
+        lastCheckedPosition = AngleUnit.normalizeDegrees((encoder.getVoltage() - 0.043) / 3.1 * 360);
         currentAbsoluteAngle = lastCheckedPosition;
     }
 
