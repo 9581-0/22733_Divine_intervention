@@ -150,6 +150,18 @@ public class Spindexer {
         return pid.atSetPoint();
     }
 
+    public boolean isFull(){
+        return stored.indexOf("E") == -1;
+    }
+
+    public boolean isEmpty(){
+        return stored.indexOf("P") == -1 && stored.indexOf("G") == -1;
+    }
+
+    public boolean isIdle(){
+        return pid.atSetPoint();
+    }
+
     public void enableSort(){sort = true;}
     public void disableSort(){sort = false;}
 

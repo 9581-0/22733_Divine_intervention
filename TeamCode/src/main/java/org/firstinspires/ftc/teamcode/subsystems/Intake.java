@@ -27,7 +27,7 @@ public class Intake extends Feature {
         }
     }
  
-    public void setVelocity(double target) {
+    public void setPower(double target) {
         pow = target;
         needsUpdate = true;
     }

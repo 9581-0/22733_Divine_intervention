@@ -14,13 +14,14 @@ import org.firstinspires.ftc.teamcode.maths.PIDcontroller;
 import org.firstinspires.ftc.teamcode.maths.mathsOperations;
 import org.firstinspires.ftc.teamcode.maths.swerveKinematics;
 import org.firstinspires.ftc.teamcode.utility.myDcMotorEx;
+import org.firstinspires.ftc.teamcode.teleop.SwerveTeleOpConfig;
 
 public class SwerveDrive {
 
     private final IMU imu;
     private final myDcMotorEx mod1m1, mod1m2, mod2m1, mod2m2, mod3m1, mod3m2;
     private final AnalogInput mod1E, mod2E, mod3E;
-    private final Telemetry telemetry;
+    private Telemetry telemetry;
 
     // PIDs
     private final PIDcontroller mod1PID = new PIDcontroller(0,0,0,0,0);
@@ -75,6 +76,20 @@ public class SwerveDrive {
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
 
         imu.initialize(params);
+    }
+
+    public void driveWithConfig(double strafe, double forward, double rot){
+        drive(strafe, forward, rot, SwerveTeleOpConfig.module1Adjust,
+                SwerveTeleOpConfig.module2Adjust,
+                SwerveTeleOpConfig.module3Adjust,
+                SwerveTeleOpConfig.Kp,
+                SwerveTeleOpConfig.Kd,
+                SwerveTeleOpConfig.Ki,
+                SwerveTeleOpConfig.Kf,
+                SwerveTeleOpConfig.Kl,
+                SwerveTeleOpConfig.FIELD_CENTRIC,
+                SwerveTeleOpConfig.IMU_POLARITY,
+                SwerveTeleOpConfig.ROBOT_RADIUS);
     }
 
     public void drive(double strafe, double forward, double rot,

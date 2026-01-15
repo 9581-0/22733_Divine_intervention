@@ -100,4 +100,12 @@ public class Shooter {
     public void requestIdle() {
         requestShot = false;
     }
+
+    @Override
+    public String toString(){
+        return "Shooter {" + 
+            flywheel.toString() + 
+            hood.toString() + 
+            turret.toString() + "}";
+    }
 }
