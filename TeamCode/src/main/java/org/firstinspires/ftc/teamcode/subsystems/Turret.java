@@ -68,7 +68,7 @@ public class Turret {
         setPos(pos);
     }
 
-    public void inPosition(){
+    public boolean inPosition(){
         return Math.abs(LServo.getPosition() - target) < 0.02;
     }
 

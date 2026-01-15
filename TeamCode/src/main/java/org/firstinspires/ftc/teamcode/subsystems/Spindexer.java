@@ -39,6 +39,8 @@ public class Spindexer {
 
         pid.setTolerance(3);
 
+        scanDexer();
+
         // State[] states = createStates();
         // state = new StateMachine(states);
     }

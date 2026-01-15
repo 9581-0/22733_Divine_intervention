@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-public class Sensorange extends PosEncoder {
+public class Sensorange{
 
     private AnalogInput encoder;
     private double lastCheckedPosition, fullRotations;
@@ -15,7 +15,6 @@ public class Sensorange extends PosEncoder {
 
 
     public Sensorange (String name, HardwareMap map) {
-        super (name);
         encoder = map.get(AnalogInput.class, name);
         // sensorange
         lastCheckedPosition = AngleUnit.normalizeDegrees((encoder.getVoltage() - 0.043) / 3.1 * 360);

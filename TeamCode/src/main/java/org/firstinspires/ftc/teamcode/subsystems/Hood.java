@@ -45,7 +45,7 @@ public class Hood extends Feature {
         return servoToAngle(pos);
     }
 
-    public double atPosition(){
+    public boolean atPosition(){
         return Math.abs(servo.getPosition() - pos) < 0.03;
     }
  
