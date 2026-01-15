@@ -23,28 +23,28 @@ public class Turret {
         RServo = map.get(Servo.class, "TurretServoR");
     }
 
-    public void update(){
-        if (tracking) {
-            Pose2D pose = odo.getPosition();
+    // public void update(){
+    //     if (tracking) {
+    //         Pose2D pose = odo.getPosition();
 
-            double currentX = pose.getX();
-            double currentY = pose.getY();
-            double currentH = pose.getHeading(); // assumed 0 is facing goal side
+    //         double currentX = pose.getX();
+    //         double currentY = pose.getY();
+    //         double currentH = pose.getHeading(); // assumed 0 is facing goal side
 
-            double angleToGoal = Math.atan2(GOAL_Y - currentY, GOAL_X - currentX);
+    //         double angleToGoal = Math.atan2(GOAL_Y - currentY, GOAL_X - currentX);
 
-            setPos((angleToGoal - currentH) / SERVO_TO_ANGLE + 0.5);
-        }
-    }
+    //         setPos((angleToGoal - currentH) / SERVO_TO_ANGLE + 0.5);
+    //     }
+    // }
 
-    public void setOdo(GoBildaPinpointDriver odometry) {
-        odo = odometry;
-    }
+    // public void setOdo(GoBildaPinpointDriver odometry) {
+    //     odo = odometry;
+    // }
 
-    public void setGoalPositions(double x, double y){
-        GOAL_X = x;
-        GOAL_Y = y;
-    }
+    // public void setGoalPositions(double x, double y){
+    //     GOAL_X = x;
+    //     GOAL_Y = y;
+    // }
 
     private void setPos(double pos){
         LServo.setPosition(pos);
@@ -67,6 +67,6 @@ public class Turret {
         setPos(pos);
     }
 
-    public void startTracking(){tracking = true;}
-    public void stopTracking(){tracking = false;}
+    // public void startTracking(){tracking = true;}
+    // public void stopTracking(){tracking = false;}
 }
