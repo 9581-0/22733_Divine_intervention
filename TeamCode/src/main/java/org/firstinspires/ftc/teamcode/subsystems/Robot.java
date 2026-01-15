@@ -103,12 +103,12 @@ public class Robot {
 
     public void init(){
         state.start();
-        shooter.requestIdle();
     }
 
     public void update(){
         shooter.update();
         spindex.update();
+        odo.update();
 
         pose = odo.getPosition();
     }
@@ -126,6 +126,12 @@ public class Robot {
         telemetry = telem;
         swerve.telemetry = telem;
     }
+
+    public void requestIdle(){requestIdle = true;}
+    public void requestIntake(){requestIntake = true;}
+    public void requestOuttake(){requestOuttake = true;}
+    public void requestSort(){requestSort = true;}
+    public void requestShot(){requestShot = true;}
 
     @Override
     public String toString(){
