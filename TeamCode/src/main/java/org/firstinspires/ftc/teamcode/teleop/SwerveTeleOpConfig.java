@@ -18,9 +18,9 @@ public class SwerveTeleOpConfig {
     // 2. MODULE OFFSETS (Values from your Zeroing OpMode)
     // =========================================================
     // Enter the raw angles you read when wheels are pointing FORWARD
-    public static double module1Adjust = -80;
-    public static double module2Adjust = 160;
-    public static double module3Adjust = -110;
+    public static double module1Adjust = 60;
+    public static double module2Adjust = -90;
+    public static double module3Adjust = -140;
 
     // =========================================================
     // 3. DRIVER PREFERENCES

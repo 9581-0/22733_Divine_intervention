@@ -32,9 +32,9 @@ public class swerveKinematics {
         double mod2strafe = strafe1 - (rotate * radius * -1.0);
         double mod2forward = forward1 + (rotate * radius * -1.0);
 
-        // Module 3: Top Right (X=1, Y=1)
+        // Module 3: Top Left (X=-1, Y=1)
         double mod3strafe = strafe1 - (rotate * radius * 1.0);
-        double mod3forward = forward1 + (rotate * radius * 1.0);
+        double mod3forward = forward1 + (rotate * radius * -1.0);
 
         // 3. Extract Speed (Magnitude)
         double mod1speed = Math.sqrt((mod1strafe * mod1strafe) + (mod1forward * mod1forward));
