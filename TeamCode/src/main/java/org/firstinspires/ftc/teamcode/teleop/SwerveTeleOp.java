@@ -5,7 +5,6 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.SwerveDrive;
 
 @TeleOp(name = "Swerve TeleOp (Final)", group = "Main")
@@ -18,9 +17,7 @@ public class SwerveTeleOp extends LinearOpMode {
         
         // Init Subsystems
         SwerveDrive swerve = new SwerveDrive(telemetry, hardwareMap);
-        Shooter shoot = new Shooter(hardwareMap);
         // Shooting Status
-        boolean shooting = false;
 
 
 
@@ -73,11 +70,6 @@ public class SwerveTeleOp extends LinearOpMode {
             //shooter
 
 
-            if (gamepad1.a && !shooting) {
-                shooting = true;
-            } else if (gamepad1.a && shooting) {shooting = false;
-            }
-            shoot.shoot(shooting);
 
 
 
