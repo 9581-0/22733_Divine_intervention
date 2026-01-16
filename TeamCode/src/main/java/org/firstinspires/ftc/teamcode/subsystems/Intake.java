@@ -1,4 +1,4 @@
-/*package org.firstinspires.ftc.teamcode.subsystems;
+package org.firstinspires.ftc.teamcode.subsystems;
  
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -38,4 +38,4 @@ public class Intake extends Feature {
                 ", pow=" + pow +
                 '}';
     }
-}*/
+}
