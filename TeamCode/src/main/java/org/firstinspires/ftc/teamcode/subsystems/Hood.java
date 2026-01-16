@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.util.Utils;
  
 import java.util.ArrayList;
  
-public class Hood extends Feature {
+public class Hood {
  
     private Servo servo;
     private boolean needsUpdate = false;
