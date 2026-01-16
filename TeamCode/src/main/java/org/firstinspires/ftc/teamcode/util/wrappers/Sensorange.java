@@ -21,7 +21,6 @@ public class Sensorange{
         currentAbsoluteAngle = lastCheckedPosition;
     }
 
-    @Override
     public void calculateValue() {
         double encoderResult = (encoder.getVoltage() / 3.3) * 360;
 
@@ -38,13 +37,11 @@ public class Sensorange{
         lastCheckedPosition = encoderResult;
     }
 
-    @Override
     public Double getValue() {
         return lastCheckedPosition;
     }
 
     @NonNull
-    @Override
     public String toString() {
         return "current absolute angle " + currentAbsoluteAngle + "\n" +
                 "current relative position " + lastCheckedPosition + "\n" +
@@ -52,7 +49,6 @@ public class Sensorange{
                 ;
     }
 
-    @Override
     public double getPosition() {
         return currentAbsoluteAngle;
     }

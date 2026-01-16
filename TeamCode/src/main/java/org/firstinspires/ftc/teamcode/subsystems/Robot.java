@@ -120,7 +120,7 @@ public class Robot {
         swerve.driveWithConfig(strafe, forward, rot);
     }
 
-    public void updateGoal(Pose2D goale) {
+    public void updateGoal(Pose2d goale) {
         goal = goale;
         shooter.updateGoal(goal);
     }
