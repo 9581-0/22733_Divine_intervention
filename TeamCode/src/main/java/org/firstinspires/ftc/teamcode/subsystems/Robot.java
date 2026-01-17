@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.util.statemachine.StateMachine;
 import org.firstinspires.ftc.teamcode.util.Pose2d;
 import org.firstinspires.ftc.teamcode.util.statemachine.Transition;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.subsystems.*;
 
 import org.firstinspires.ftc.teamcode.util.drivers.GoBildaPinpointDriver;
 
@@ -133,11 +134,24 @@ public class Robot {
     public void enableSort(){spindex.enableSort();}
     public void disableSort(){spindex.disableSort();}
 
-    public void requestIdle(){requestIdle = true;}
-    public void requestIntake(){requestIntake = true;}
-    public void requestOuttake(){requestOuttake = true;}
-    public void requestSort(){requestSort = true;}
-    public void requestShot(){requestShot = true;}
+    public void requestIdle(){
+        requestIdle = true;
+    }
+    public void requestIntake(){
+        requestIntake = true;
+        intake.setPower(1);
+
+    }
+    public void requestOuttake(){
+        requestOuttake = true;
+
+    }
+    public void requestSort(){
+        requestSort = true;
+    }
+    public void requestShot(){
+        requestShot = true;
+    }
 
     @Override
     public String toString(){
