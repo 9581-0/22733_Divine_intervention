@@ -17,7 +17,11 @@ public class Shooter {
     private Turret turret;
     private Pose2d pose, goal;
 
-    public final static double IDLE_VEL = 4000, IDLE_HOOD = 0.5;
+    public final static double IDLE_VEL = 0, IDLE_HOOD = 0.5;
+    public final static double TARGET_VEL = 5000;
+
+    private double manualHoodPosition = IDLE_HOOD;
+    private double manualTurretAngle = 0;
 
     private boolean requestShot;
  
@@ -27,6 +31,7 @@ public class Shooter {
         turret = new Turret(map);
  
         requestShot = false;
+        manualTurretAngle = turret.getAngle();
         pose = new Pose2d(0, 0, Math.toRadians(0));
         goal = new Pose2d(0, 0, Math.toRadians(0));
   
@@ -40,22 +45,16 @@ public class Shooter {
         states[0] = new State("IDLE")
                 .setDuring(() -> {
                     flywheel.setVelocity(IDLE_VEL);
-                    hood.setPosition(IDLE_HOOD);
+                    hood.setPosition(manualHoodPosition);
+                    turret.setAngle(manualTurretAngle);
                 })
                 .addTransition(new Transition(() -> requestShot, "ON"));
  
         states[1] = new State("ON")
                 .setDuring(() -> {
-                    double dx = goal.getErrorInX(pose);
-                    double dy = goal.getErrorInY(pose);
- 
-                    double tAngle = Math.toDegrees(Math.atan2(dy, dx));
-                    double offset = tAngle - Math.toDegrees(pose.getHeading());
- 
-                    turret.setAngle(offset + turret.SERVO_TO_ANGLE / 2);
-
-                    flywheel.setVelocity(5000);
-                    hood.setPosition(getHoodFromFlywheel(flywheel.getCurrentVel()));
+                    flywheel.setVelocity(TARGET_VEL);
+                    hood.setPosition(manualHoodPosition);
+                    turret.setAngle(manualTurretAngle);
                 })
                 .setFallbackState("IDLE")
                 .addTransition(new Transition(() -> !requestShot, "IDLE"));
@@ -68,6 +67,8 @@ public class Shooter {
         flywheel.setVelocity(IDLE_VEL);
         hood.setPosition(IDLE_HOOD);
         turret.setAngle(turret.getAngle());
+        manualHoodPosition = IDLE_HOOD;
+        manualTurretAngle = turret.getAngle();
     }
  
     public void update() {
@@ -81,6 +82,22 @@ public class Shooter {
 
     public void updateGoal(Pose2d goale) {
         goal = goale;
+    }
+
+    public void adjustHoodPosition(double delta) {
+        manualHoodPosition = clamp(manualHoodPosition + delta, 0, 1);
+    }
+
+    public void adjustTurretAngle(double delta) {
+        manualTurretAngle = clamp(manualTurretAngle + delta, 0, turret.SERVO_TO_ANGLE);
+    }
+
+    public void setFlywheelEnabled(boolean enabled) {
+        requestShot = enabled;
+    }
+
+    public boolean isFlywheelEnabled() {
+        return requestShot;
     }
 
     private double getHoodFromFlywheel(double velocity) {
@@ -99,6 +116,10 @@ public class Shooter {
  
     public void requestIdle() {
         requestShot = false;
+    }
+
+    private double clamp(double value, double min, double max) {
+        return Math.max(min, Math.min(max, value));
     }
 
     @Override
