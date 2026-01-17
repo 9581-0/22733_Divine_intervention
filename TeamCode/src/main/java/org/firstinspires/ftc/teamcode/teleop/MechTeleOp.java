@@ -43,6 +43,8 @@ public class MechTeleOp extends LinearOpMode{
                 robot.requestIdle();
             }
 
+            robot.update();
+
             telemetry.addData("Status", robot.toString());
             telemetry.update();
         }
