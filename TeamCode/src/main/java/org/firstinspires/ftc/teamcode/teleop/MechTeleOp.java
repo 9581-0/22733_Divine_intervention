@@ -11,6 +11,10 @@ public class MechTeleOp extends LinearOpMode{
     Robot robot;
     Pose2d goal;
 
+    private static final double HOOD_STEP = 0.02;
+    private static final double TURRET_STEP = 5.0;
+    private boolean leftTriggerLatch = false;
+
     @Override
     public void runOpMode(){
         robot = new Robot(hardwareMap);
@@ -27,11 +31,20 @@ public class MechTeleOp extends LinearOpMode{
             double rot = gamepad1.right_stick_x;
             robot.drive(strafe, forward, rot);
 
+            if (gamepad1.left_trigger > 0.5) {
+                if (!leftTriggerLatch) {
+                    robot.toggleFlywheel();
+                    leftTriggerLatch = true;
+                }
+            } else {
+                leftTriggerLatch = false;
+            }
+
             if (gamepad1.right_trigger > 0.05) {
                 robot.requestIntake();
                 telemetry.addData("trigger being held", "yes");
-            } else if (gamepad1.left_trigger > 0.05) {
-                robot.requestOuttake();
+            } else {
+                robot.setIntakePower(0);
             }
 
             if (gamepad1.left_bumper) {
@@ -40,8 +53,16 @@ public class MechTeleOp extends LinearOpMode{
                 robot.requestShot();
             }
 
-            if (gamepad1.dpad_up){
-                robot.requestIdle();
+            if (gamepad1.dpad_up) {
+                robot.adjustHoodPosition(HOOD_STEP);
+            } else if (gamepad1.dpad_down) {
+                robot.adjustHoodPosition(-HOOD_STEP);
+            }
+
+            if (gamepad1.dpad_right) {
+                robot.adjustTurretAngle(TURRET_STEP);
+            } else if (gamepad1.dpad_left) {
+                robot.adjustTurretAngle(-TURRET_STEP);
             }
 
             robot.update();
