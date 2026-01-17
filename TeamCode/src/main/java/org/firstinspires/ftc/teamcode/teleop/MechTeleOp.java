@@ -29,6 +29,7 @@ public class MechTeleOp extends LinearOpMode{
 
             if (gamepad1.right_trigger > 0.05) {
                 robot.requestIntake();
+                telemetry.addData("trigger being held", "yes")
             } else if (gamepad1.left_trigger > 0.05) {
                 robot.requestOuttake();
             }
