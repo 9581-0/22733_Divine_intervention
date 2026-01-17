@@ -107,11 +107,13 @@ public class Robot {
 
     public void init(){
         state.start();
+        shooter.init();
     }
 
     public void update(){
         shooter.update();
         spindex.update();
+        intake.update();
         odo.update();
 
         pose = odo.getPosition();
@@ -151,6 +153,22 @@ public class Robot {
     }
     public void requestShot(){
         requestShot = true;
+    }
+
+    public void setIntakePower(double power) {
+        intake.setPower(power);
+    }
+
+    public void toggleFlywheel() {
+        shooter.setFlywheelEnabled(!shooter.isFlywheelEnabled());
+    }
+
+    public void adjustHoodPosition(double delta) {
+        shooter.adjustHoodPosition(delta);
+    }
+
+    public void adjustTurretAngle(double delta) {
+        shooter.adjustTurretAngle(delta);
     }
 
     @Override
