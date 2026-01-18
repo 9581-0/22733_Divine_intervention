@@ -19,7 +19,10 @@ public class Intake extends Feature {
  
     @Override
     public void update() {
-        motor.setPower(pow);
+        if (needsUpdate) {
+            motor.setPower(pow);
+            needsUpdate = false;
+        }
     }
  
     public void setPower(double target) {

@@ -115,6 +115,7 @@ public class Robot {
 
         shooter.update();
         spindex.update();
+        intake.update();
         odo.update();
 
         pose = odo.getPosition();
