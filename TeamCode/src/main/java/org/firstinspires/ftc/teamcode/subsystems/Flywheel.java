@@ -6,8 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
  
 import org.firstinspires.ftc.teamcode.util.PIDF;
 import org.firstinspires.ftc.teamcode.util.templates.Feature;
- 
-import java.util.ArrayList;
+
 import java.util.function.Supplier;
  
 public class Flywheel extends Feature {
@@ -42,7 +41,7 @@ public class Flywheel extends Feature {
         pow = velPID.calculate(currentVel, targetVel.get());
         pow /= voltage.getVoltage();
  
-        motor.setPower(pow);
+        motor.setPower(-pow);
     }
  
     public Flywheel setVelocity(double target) {
