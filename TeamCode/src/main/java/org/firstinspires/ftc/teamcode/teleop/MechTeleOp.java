@@ -44,6 +44,14 @@ public class MechTeleOp extends LinearOpMode{
                 robot.requestIdle();
             }
 
+            if (gamepad1.a) {
+                robot.iamsacrificingmyfutureforthis();
+            } else if (gamepad1.x) {
+                robot.pleasekillmeiwannadie();
+            } else if (gamepad1.y) {
+                robot.youbetterflymeouttoworlds();
+            }
+
             robot.update();
 
             telemetry.addData("Status", robot.toString());

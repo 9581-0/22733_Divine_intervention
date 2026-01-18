@@ -157,6 +157,10 @@ public class Robot {
         requestShot = true;
     }
 
+    public void pleasekillmeiwannadie(){intake.pleasekillmeiwannadie();}
+    public void youbetterflymeouttoworlds(){intake.youbetterflymeouttoworlds();}
+    public void iamsacrificingmyfutureforthis(){intake.iamsacrificingmyfutureforthis();}
+
     @Override
     public String toString(){
         return "Robot {" + 

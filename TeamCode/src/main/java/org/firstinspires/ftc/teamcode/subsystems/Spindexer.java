@@ -170,6 +170,10 @@ public class Spindexer {
     public void enableSort(){sort = true;}
     public void disableSort(){sort = false;}
 
+    public void pleasekillmeiwannadie(){setPower(1);}
+    public void youbetterflymeouttoworlds(){setPower(-1);}
+    public void iamsacrificingmyfutureforthis(){setPower(-1);}
+
     @Override
     public String toString(){
         return "Spindexer {" +
