@@ -25,8 +25,8 @@ public class SwerveTeleOpConfig {
     // =========================================================
     // 3. DRIVER PREFERENCES
     // =========================================================
-    public static double DRIVE_SPEED_SCALAR = 0.88;
-    public static double ROTATION_SPEED_SCALAR = 1.0;
+    public static double DRIVE_SPEED_SCALAR = 0.8;
+    public static double ROTATION_SPEED_SCALAR = 0.8;
     public static boolean FIELD_CENTRIC = true;
     public static boolean USE_IMU = true;
     

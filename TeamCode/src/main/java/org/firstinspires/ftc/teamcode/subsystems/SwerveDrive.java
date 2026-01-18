@@ -73,7 +73,7 @@ public class SwerveDrive {
         // FIX: Changed to BACKWARD/UP to match vertical mounting on back of robot
         IMU.Parameters params = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP));
+                RevHubOrientationOnRobot.UsbFacingDirection.RIGHT));
 
         imu.initialize(params);
     }
