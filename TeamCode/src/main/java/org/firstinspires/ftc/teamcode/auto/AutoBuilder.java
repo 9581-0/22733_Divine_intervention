@@ -23,4 +23,8 @@ public class AutoBuilder {
     public boolean driveToPosition(Pose2d pos){
         return robot.driveToPosition(pos);
     }
+
+    public void changeState(String newState){
+        
+    }
 }
