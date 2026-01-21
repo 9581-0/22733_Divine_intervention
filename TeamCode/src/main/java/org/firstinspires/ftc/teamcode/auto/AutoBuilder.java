@@ -1,0 +1,26 @@
+package org.firstinspires.ftc.teamcode.auto;
+
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+import org.firstinspires.ftc.teamcode.subsystems.Robot;
+import org.firstinspires.ftc.teamcode.util.Pose2d;
+
+public class AutoBuilder {
+    // position constants go here
+    private Robot robot;
+
+    public AutoBuilder(hardwareMap map){
+        robot = new Robot(map);
+    }
+
+    public init(Pose2d goal, Telemetry telemetry) {
+        robot.init();
+        robot.updateGoal(goal);
+        robot.updateTelemetry(telemetry);
+    }
+
+    public boolean driveToPosition(Pose2d pos){
+        return robot.driveToPosition(pos);
+    }
+}

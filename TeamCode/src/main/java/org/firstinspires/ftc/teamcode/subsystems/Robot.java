@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.util.statemachine.State;
 import org.firstinspires.ftc.teamcode.util.statemachine.StateMachine;
 import org.firstinspires.ftc.teamcode.util.Pose2d;
+import org.firstinspires.ftc.teamcode.util.PIDF;
 import org.firstinspires.ftc.teamcode.util.statemachine.Transition;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.*;
@@ -24,6 +25,11 @@ public class Robot {
     private Pose2d pose, goal;
     private Telemetry telemetry;
 
+    public static double tP = 0.005, tD = 0.0005;
+    private PIDF tpid = new PIDF(tP, tD);
+    public static double rP = 0.01, rD = 0.001;
+    private PIDF rpid = new PIDF(rP, rD);
+
     public Robot (HardwareMap map) {
         shooter = new Shooter(map);
         spindex = new Spindexer(map);
@@ -34,6 +40,9 @@ public class Robot {
 
         pose = new Pose2d(0, 0, Math.toRadians(0));
         goal = new Pose2d(0, 0, Math.toRadians(0));
+
+        tpid.setTolerance(20);
+        rpid.setTolerance(3);
   
         State[] states = createStates();
         state = new StateMachine(states);
@@ -118,11 +127,19 @@ public class Robot {
         intake.update();
         odo.update();
 
-        pose = odo.getPosition();
+        pose = pose.convertPose2D(odo.getPosition());
     }
 
     public void drive(double strafe, double forward, double rot){
         swerve.driveWithConfig(strafe, forward, rot);
+    }
+
+    public boolean driveToPosition(Pose2d pos){
+        drive(
+            tpid.calculate(pose.x, pos.x), 
+            tpid.calculate(pose.y, pos.y), 
+            rpid.calculate(pose.heading, pos.heading));
+        return tpid.atSetPoint() && rpid.atSetPoint();
     }
 
     public void updateGoal(Pose2d goale) {
