@@ -3,9 +3,6 @@ package org.firstinspires.ftc.teamcode.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-
 import org.firstinspires.ftc.teamcode.util.drivers.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.util.Pose2d;
 
@@ -29,9 +26,9 @@ public class OdoTeleOp extends LinearOpMode{
             odo.update();
             Pose2d pos = odo.getPosition();
             String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}",
-                pos.getX(DistanceUnit.MM),
-                pos.getY(DistanceUnit.MM),
-                pos.getHeading(AngleUnit.DEGREES));
+                pos.getX(),
+                pos.getY(),
+                pos.getHeading());
             telemetry.addData("Current", data);
             telemetry.update();
         }

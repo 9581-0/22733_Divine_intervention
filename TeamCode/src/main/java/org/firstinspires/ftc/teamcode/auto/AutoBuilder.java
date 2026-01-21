@@ -25,6 +25,8 @@ public class AutoBuilder {
     }
 
     public void changeState(String newState){
-        
+        // switch (newState) {
+        //     case "IDLE": 
+        // }
     }
 }
