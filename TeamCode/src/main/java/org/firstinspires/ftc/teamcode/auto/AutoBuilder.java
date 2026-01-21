@@ -25,8 +25,24 @@ public class AutoBuilder {
     }
 
     public void changeState(String newState){
-        // switch (newState) {
-        //     case "IDLE": 
-        // }
+        switch (newState) {
+            case "INTAKE":
+                robot.requestIntake();
+                break;
+            case "SORT":
+                robot.requestSort();
+                break;
+            case "SHOOT":
+                robot.requestShot();
+                break;
+            case "OUTTAKE":
+                robot.requestOuttake();
+                break;
+            case "IDLE":
+                robot.requestIdle();
+                break;
+            default:
+                break;
+        }
     }
 }
