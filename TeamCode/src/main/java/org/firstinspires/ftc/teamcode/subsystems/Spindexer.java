@@ -152,9 +152,9 @@ public class Spindexer {
     }
 
     private boolean runPID(){
-        setPower(pid.calculate(encoder.getPosition(), target));
-        return pid.atSetPoint();
-        // return false;
+        // setPower(pid.calculate(encoder.getPosition(), target));
+        // return pid.atSetPoint();
+        return true;
     }
 
     public boolean isFull(){
