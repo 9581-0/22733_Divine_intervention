@@ -146,7 +146,7 @@ public class Spindexer {
         int b = sensor.blue();
         status = "r: " + r + " g: " + g + " b: " + b;
         if (g > r && g > b && g - b > 200) {return "G";}
-        if (b > g && b - g > 200 && g > 1000) {return "P";}
+        if (b > g && b - g > 200 && r > 500) {return "P";}
         if (b < 200 && g < 200 && r < 200){return "E";}
         return "???";
     }
