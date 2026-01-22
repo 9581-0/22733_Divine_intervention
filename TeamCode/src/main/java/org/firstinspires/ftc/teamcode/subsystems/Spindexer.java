@@ -93,8 +93,8 @@ public class Spindexer {
     public void update(){
         encoder.calculateValue();
         if (!runPID()){
-            scanDexer();
             if (sort && !sorted) {
+                scanDexer();
                 int p = 0, g = 0;
                 for (String s : stored) {
                     p += s.equals("P") ? 1 : 0;
@@ -151,8 +151,7 @@ public class Spindexer {
         status = "r: " + r + " g: " + g + " b: " + b;
         if (g > r && g > b && g - b > 100) {return "G";}
         if (b > g && b - g > 200 && r > 500) {return "P";}
-        if (b < 200 && g < 200 && r < 200){return "E";}
-        return "???";
+        return "E";
     }
 
     private boolean runPID(){
