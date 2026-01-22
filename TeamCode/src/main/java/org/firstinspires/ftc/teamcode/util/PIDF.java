@@ -17,9 +17,16 @@ public class PIDF {
     public PIDF (double kp, double kd) {
         this(kp, kd, 0);
     }
+    public PIDF (Supplier<Double> kp, Supplier<Double> kd) {
+        this(kp, kd, () -> 0.0, 0, 0);
+    }
 
     public PIDF (double kp, double kd, double kf) {
         this(() -> kp, () -> kd, () -> kf, 0, 0);
+    }
+
+    public PIDF (Supplier<Double> kp, Supplier<Double> kd, Supplier<Double> kv) {
+        this(kp, kd, kv, 0, 0);
     }
 
     public PIDF (double kp, double kd, Supplier<Double> kV) {
@@ -108,22 +115,14 @@ public class PIDF {
         period = currentTimeStamp - lastTimeStamp;
         lastTimeStamp = currentTimeStamp;
 
-        if (reportedValue == pv) {
-            pError = setPoint - reportedValue;
-        } else {
-            pError = setPoint - pv;
-            reportedValue = pv;
-        }
+        pError = setPoint - pv;
+        reportedValue = pv;
 
-        if (Math.abs(period) > 1E-6) {
-            vError = (pError - prevErrorVal) / period;
-        } else {
-            vError = 0;
-        }
+        vError = period > 1e-6 ? (pError - prevErrorVal) / period : 0.0;
 
         totalError = period * (setPoint - reportedValue);
 
-        return (Math.signum(kP.get() * pError) * Math.sqrt(kP.get() * pError)) + kD.get() * vError + kF.get() * setPoint;
+        return (kP.get() * pError) + kD.get() * vError + (Math.signum(pError) * kF.get());
     }
 
     public void setPDF (double kP, double kF, double kD) {
