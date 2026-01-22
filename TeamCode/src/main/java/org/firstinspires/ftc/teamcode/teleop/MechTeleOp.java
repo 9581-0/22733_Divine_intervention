@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Robot;
 
 @TeleOp(name="A Shrimp made this teleop", group="Human Teleop")
 public class MechTeleOp extends LinearOpMode{
+    long lastLoopTime = 0;
     Robot robot;
     Pose2d goal = new Pose2d(0, 0);
 
@@ -53,6 +54,12 @@ public class MechTeleOp extends LinearOpMode{
             }
 
             robot.update();
+            long currentTime = System.currentTimeMillis();
+            long loopTime = currentTime - lastLoopTime;
+            lastLoopTime = currentTime;
+            telemetry.addData("Loop Time (ms)", loopTime);
+            telemetry.addData("Frequency (Hz)", 1000.0 / loopTime);
+
 
             telemetry.addData("Status", robot.toString());
             telemetry.update();
