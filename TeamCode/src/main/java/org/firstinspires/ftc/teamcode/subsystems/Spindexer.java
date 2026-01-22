@@ -183,7 +183,7 @@ public class Spindexer {
                 "sensorA =" + colora.red() + " " + colora.green() + " " + colora.blue() + stored.get(0) +
                 "sensorB =" + colorb.red() + " " + colorb.green() + " " + colorb.blue() + stored.get(1) +
                 "sensorC =" + colorc.red() + " " + colorc.green() + " " + colorc.blue() + stored.get(2) +
-                "ENCODER!! ENCODER!! " + encoder.getPosition()
+                "ENCODER!! ENCODER!! " + encoder
                 + "}";
     }
 }
