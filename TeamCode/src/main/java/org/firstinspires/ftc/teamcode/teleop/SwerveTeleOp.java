@@ -10,6 +10,9 @@ import org.firstinspires.ftc.teamcode.subsystems.SwerveDrive;
 @TeleOp(name = "Swerve TeleOp (Final)", group = "Main")
 public class SwerveTeleOp extends LinearOpMode {
 
+    long lastLoopTime = 0;
+
+
     @Override
     public void runOpMode() {
         // Setup Telemetry (Phone + Dashboard)
@@ -71,6 +74,12 @@ public class SwerveTeleOp extends LinearOpMode {
 
 
 
+            long currentTime = System.currentTimeMillis();
+            long loopTime = currentTime - lastLoopTime;
+            lastLoopTime = currentTime;
+
+            telemetry.addData("Loop Time (ms)", loopTime);
+            telemetry.addData("Frequency (Hz)", 1000.0 / loopTime);
 
 
 
