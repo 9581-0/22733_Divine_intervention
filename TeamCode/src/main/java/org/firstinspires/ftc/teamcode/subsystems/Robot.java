@@ -2,7 +2,8 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.hardware.lynx.LynxModule;
- 
+import java.util.List;
+
 import org.firstinspires.ftc.teamcode.util.statemachine.State;
 import org.firstinspires.ftc.teamcode.util.statemachine.StateMachine;
 import org.firstinspires.ftc.teamcode.util.Pose2d;
@@ -14,13 +15,13 @@ import org.firstinspires.ftc.teamcode.subsystems.*;
 import org.firstinspires.ftc.teamcode.util.drivers.GoBildaPinpointDriver;
 
 public class Robot {
-    private StateMachine state;
+    private final StateMachine state;
 
-    private Shooter shooter;
-    private Spindexer spindex;
-    private Intake intake;
-    private SwerveDrive swerve;
-    private GoBildaPinpointDriver odo;
+    private final Shooter shooter;
+    private final Spindexer spindex;
+    private final Intake intake;
+    private final SwerveDrive swerve;
+    private final GoBildaPinpointDriver odo;
 
     private boolean requestIntake = false, requestOuttake = false, requestShot = false, requestSort = false, requestIdle = false;
     private Pose2d pose, goal;
@@ -193,7 +194,7 @@ public class Robot {
     public String toString(){
         return "Robot {" + 
                 intake.toString() + 
-                spindex.toString() + 
+                spindex.toString() +
                 shooter.toString() + 
                 "pos = " + pose + "}";
     }
