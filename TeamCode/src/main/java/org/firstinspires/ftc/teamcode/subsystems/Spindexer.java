@@ -145,7 +145,7 @@ public class Spindexer {
         int g = sensor.green();
         int b = sensor.blue();
         status = "r: " + r + " g: " + g + " b: " + b;
-        if (g > r && g > b && g - b > 200) {return "G";}
+        if (g > r && g > b && g - b > 100) {return "G";}
         if (b > g && b - g > 200 && r > 500) {return "P";}
         if (b < 200 && g < 200 && r < 200){return "E";}
         return "???";
@@ -182,7 +182,7 @@ public class Spindexer {
                 "sensorA =" + colora.red() + " " + colora.green() + " " + colora.blue() + stored.get(0) +
                 "sensorB =" + colorb.red() + " " + colorb.green() + " " + colorb.blue() + stored.get(1) +
                 "sensorC =" + colorc.red() + " " + colorc.green() + " " + colorc.blue() + stored.get(2) +
-                status
+                "ENCODER!! ENCODER!! " + encoder.getPosition()
                 + "}";
     }
 }
