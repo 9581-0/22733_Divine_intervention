@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.util.Pose2d;
 
 import org.firstinspires.ftc.teamcode.subsystems.Robot;
 
-@TeleOp(name="Mech Teleop", group="Human Teleop")
+@TeleOp(name="A Shrimp made this teleop", group="Human Teleop")
 public class MechTeleOp extends LinearOpMode{
     Robot robot;
     Pose2d goal = new Pose2d(0, 0);
