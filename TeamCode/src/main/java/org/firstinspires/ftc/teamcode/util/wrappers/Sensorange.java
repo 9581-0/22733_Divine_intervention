@@ -22,7 +22,7 @@ public class Sensorange{
     }
 
     public void calculateValue() {
-        double encoderResult = (encoder.getVoltage() / 3.3) * 360;
+        double encoderResult = AngleUnit.normalizeDegrees((encoder.getVoltage() - 0.043) / 3.1 * 360);
 
         if (lastCheckedPosition >= 180 && encoderResult <= 180) {
             fullRotations++;
