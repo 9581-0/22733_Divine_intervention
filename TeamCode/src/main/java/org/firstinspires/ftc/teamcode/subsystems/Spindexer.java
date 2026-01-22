@@ -29,7 +29,7 @@ public class Spindexer {
     private ArrayList<String> stored = new ArrayList<>();
     private boolean requestFire, requestSort, requestIdle = false;
     private boolean sort = false;
-
+    private String status = "NO, THE THING IS NOT RUNNING";
 
     public Spindexer(HardwareMap map){
         LServo = map.get(CRServo.class, "IndexServoL");
@@ -92,7 +92,7 @@ public class Spindexer {
 
     public void update(){
         if (runPID()){
-            stored = scanDexer();
+            scanDexer();
             if (sort) {
                 int p = 0, g = 0;
                 for (String s : stored) {
@@ -133,20 +133,20 @@ public class Spindexer {
         RServo.setPower(pow);
     }
 
-    public ArrayList scanDexer(){
+    public void scanDexer(){
         stored.clear();
         stored.add(detectColor(colora));
         stored.add(detectColor(colorb));
         stored.add(detectColor(colorc));
-        return stored;
     }
 
     private String detectColor(ColorSensor sensor) {
+        status = "YES, THE THING IS RUNNING";
         int r = sensor.red();
         int g = sensor.green();
         int b = sensor.blue();
-        if (g > r && g > b && g > 100) {return "G";}
-        if (b > 70 && r > 70 && g < 70) {return "P";}
+        if (g > r && g > b && g > 2000) {return "G";}
+        if (b > g && b > 2000) {return "P";}
         return "E";
     }
 
@@ -181,7 +181,8 @@ public class Spindexer {
                 "look here dumdum" + LServo.getPower() + RServo.getPower() +
                 "sensorA =" + colora.red() + " " + colora.green() + " " + colora.blue() + stored.get(0) +
                 "sensorB =" + colorb.red() + " " + colorb.green() + " " + colorb.blue() + stored.get(1) +
-                "sensorC =" + colorc.red() + " " + colorc.green() + " " + colorc.blue() + stored.get(2)
+                "sensorC =" + colorc.red() + " " + colorc.green() + " " + colorc.blue() + stored.get(2) +
+                status
                 + "}";
     }
 }
