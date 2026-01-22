@@ -178,7 +178,6 @@ public class Spindexer {
     @Override
     public String toString(){
         return "Spindexer {" +
-                "look here dumdum" + LServo.getPower() + RServo.getPower() +
                 "sensorA =" + colora.red() + " " + colora.green() + " " + colora.blue() + stored.get(0) +
                 "sensorB =" + colorb.red() + " " + colorb.green() + " " + colorb.blue() + stored.get(1) +
                 "sensorC =" + colorc.red() + " " + colorc.green() + " " + colorc.blue() + stored.get(2) +
