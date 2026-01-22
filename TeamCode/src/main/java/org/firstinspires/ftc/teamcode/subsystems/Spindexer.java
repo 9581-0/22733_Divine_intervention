@@ -42,6 +42,9 @@ public class Spindexer {
         colora = map.get(ColorSensor.class, "color1");
         colorb = map.get(ColorSensor.class, "color2");
         colorc = map.get(ColorSensor.class, "color3");
+        stored.add("E");
+        stored.add("E");
+        stored.add("E");
 
         pid.setTolerance(3);
 
@@ -120,11 +123,11 @@ public class Spindexer {
     public void shoot(){
         sorted = false;
         target -= 360;
-        for (int i = 2; i >= 0; i--) {
-            if (stored.get(i).equals("E")){
-                target += 120;
-            } else {break;}
-        }
+        // for (int i = 2; i >= 0; i--) {
+        //     if (stored.get(i).equals("E")){
+        //         target += 120;
+        //     } else {break;}
+        // }
     }
 
     private void moveEmptySlot(){
