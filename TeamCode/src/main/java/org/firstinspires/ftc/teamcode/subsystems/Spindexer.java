@@ -110,7 +110,7 @@ public class Spindexer {
                         target += 120;
                     }
                 }
-                sorted = true;
+                sorted = g + p == 3;
             } else {
                 moveEmptySlot();
             }
