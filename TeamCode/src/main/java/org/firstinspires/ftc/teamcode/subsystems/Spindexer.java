@@ -21,7 +21,7 @@ public class Spindexer {
     private Sensorange encoder;
 
     private StateMachine state;
-    public static double P = 0.003, D = 0.0005;
+    public static double P = 0.0015, D = 0.0005;
     private PIDF pid = new PIDF(P, D);
     private double maxServoSpeed = 0.3;
     private double target = -44;
