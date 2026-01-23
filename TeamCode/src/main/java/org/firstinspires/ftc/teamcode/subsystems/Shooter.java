@@ -23,8 +23,25 @@ public class Shooter {
     private double manualHoodPosition = IDLE_HOOD;
     private double manualTurretAngle = 0;
 
+    private boolean autoAimEnabled = true;
     private boolean requestShot;
- 
+
+    // ---- Auto-aim tuning (NEAR triangle) ----
+    // TUNE: Update the three distances (in your field units) for the NEAR triangle.
+    private static final double[] NEAR_DISTANCES = {24, 36, 48};
+    // TUNE: Update hood positions (pitch) for the NEAR triangle distances above.
+    private static final double[] NEAR_PITCH = {0.62, 0.55, 0.48};
+    // TUNE: Update yaw offsets (degrees) for the NEAR triangle distances above.
+    private static final double[] NEAR_YAW = {0.0, 0.5, 1.0};
+
+    // ---- Auto-aim tuning (FAR triangle) ----
+    // TUNE: Update the three distances (in your field units) for the FAR triangle.
+    private static final double[] FAR_DISTANCES = {60, 72, 84};
+    // TUNE: Update hood positions (pitch) for the FAR triangle distances above.
+    private static final double[] FAR_PITCH = {0.42, 0.38, 0.34};
+    // TUNE: Update yaw offsets (degrees) for the FAR triangle distances above.
+    private static final double[] FAR_YAW = {1.5, 2.0, 2.5};
+
     public Shooter (HardwareMap map) {
         flywheel = new Flywheel(map);
         hood = new Hood(map);
@@ -73,6 +90,9 @@ public class Shooter {
  
     public void update() {
         flywheel.update();
+        if (autoAimEnabled) {
+            updateAutoAim();
+        }
         state.run();
     }
 
@@ -92,6 +112,10 @@ public class Shooter {
         manualTurretAngle = clamp(manualTurretAngle + delta, 0, turret.SERVO_TO_ANGLE);
     }
 
+    public void setAutoAimEnabled(boolean enabled) {
+        autoAimEnabled = enabled;
+    }
+
     public void setFlywheelEnabled(boolean enabled) {
         requestShot = enabled;
     }
@@ -102,6 +126,57 @@ public class Shooter {
 
     private double getHoodFromFlywheel(double velocity) {
         return 1 - (velocity / 10000);
+    }
+
+    private void updateAutoAim() {
+        if (pose == null || goal == null) {
+            return;
+        }
+        double dx = goal.x - pose.x;
+        double dy = goal.y - pose.y;
+        double distance = Math.hypot(dx, dy);
+
+        double[] pitchProfile;
+        double[] yawProfile;
+        double[] distanceProfile;
+
+        if (distance <= NEAR_DISTANCES[NEAR_DISTANCES.length - 1]) {
+            distanceProfile = NEAR_DISTANCES;
+            pitchProfile = NEAR_PITCH;
+            yawProfile = NEAR_YAW;
+        } else {
+            distanceProfile = FAR_DISTANCES;
+            pitchProfile = FAR_PITCH;
+            yawProfile = FAR_YAW;
+        }
+
+        double pitch = interpolateThreePoint(distance, distanceProfile, pitchProfile);
+        double yawOffset = interpolateThreePoint(distance, distanceProfile, yawProfile);
+
+        double baseYawDegrees = Math.toDegrees(Math.atan2(dy, dx)) - Math.toDegrees(pose.heading);
+        manualTurretAngle = clamp(baseYawDegrees + yawOffset, 0, turret.SERVO_TO_ANGLE);
+        manualHoodPosition = clamp(pitch, 0, 1);
+    }
+
+    private double interpolateThreePoint(double x, double[] xs, double[] ys) {
+        if (xs.length != 3 || ys.length != 3) {
+            throw new IllegalArgumentException("Auto-aim profiles must contain three points.");
+        }
+        if (x <= xs[0]) {
+            return ys[0];
+        }
+        if (x >= xs[2]) {
+            return ys[2];
+        }
+        if (x <= xs[1]) {
+            return lerp(xs[0], ys[0], xs[1], ys[1], x);
+        }
+        return lerp(xs[1], ys[1], xs[2], ys[2], x);
+    }
+
+    private double lerp(double x0, double y0, double x1, double y1, double x) {
+        double t = (x - x0) / (x1 - x0);
+        return y0 + t * (y1 - y0);
     }
 
     public boolean isReady() {
