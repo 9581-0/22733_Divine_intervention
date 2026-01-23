@@ -11,6 +11,8 @@ public class MechTeleOp extends LinearOpMode{
     long lastLoopTime = 0;
     Robot robot;
     Pose2d goal = new Pose2d(0, 0);
+    boolean telemetryOn = false;
+    boolean telemetryOnTwo = false;
 
     @Override
     public void runOpMode(){
@@ -52,6 +54,12 @@ public class MechTeleOp extends LinearOpMode{
                 robot.youbetterflymeouttoworlds();
             }
 
+            if (gamepad1.right_stick_button) {
+                telemetryOn = !telemetryOnTwo;
+            } else if (!gamepad1.right_stick_button){
+                telemetryOnTwo = telemetryOn;
+            }
+
             robot.update();
             long currentTime = System.currentTimeMillis();
             long loopTime = currentTime - lastLoopTime;
@@ -60,7 +68,7 @@ public class MechTeleOp extends LinearOpMode{
             telemetry.addData("Frequency (Hz)", 1000.0 / loopTime);
 
 
-            telemetry.addData("Status", robot.toString());
+            if (telemetryOn) {telemetry.addData("Status", robot.toString());}
             telemetry.update();
         }
     }
