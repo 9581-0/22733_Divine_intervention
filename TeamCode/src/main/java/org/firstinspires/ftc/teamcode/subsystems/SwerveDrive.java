@@ -31,6 +31,23 @@ public class SwerveDrive {
 
     private double imuOffset = 180;
 
+    private static final double HEADING_LOCK_KP = 0.002;
+    private static final double HEADING_LOCK_KI = 0.00002;
+    private static final double HEADING_LOCK_KD = 0.0001;
+    private static final double HEADING_LOCK_KF = 0.00005;
+    private static final double HEADING_LOCK_KL = 0.1;
+    private static final double HEADING_LOCK_DEADBAND = 1e-3;
+
+    private final PIDcontroller headingLockPID = new PIDcontroller(
+            HEADING_LOCK_KP,
+            HEADING_LOCK_KD,
+            HEADING_LOCK_KI,
+            HEADING_LOCK_KF,
+            HEADING_LOCK_KL
+    );
+    private double headingLockTarget = 0;
+    private boolean headingLockActive = false;
+
     // Safety Variables
     private boolean initialized = false;
     private double lastGoodHeading = 180; // Failsafe for IMU singularity
@@ -104,20 +121,43 @@ public class SwerveDrive {
 
         // 3. Get Heading (With Singularity Failsafe)
         double heading = 0;
-        if (fieldCentric) {
-            double rawHeading = getHeading(imuPolarity);
-
-            // Check if IMU returned NaN (Singularity)
-            if (Double.isNaN(rawHeading)) {
-                heading = lastGoodHeading; // Use last known safe angle
-                telemetry.addData("WARNING", "IMU NAN DETECTED - USING FALLBACK");
+        boolean needsHeading = fieldCentric || (initialized && Math.abs(rot) < HEADING_LOCK_DEADBAND);
+        if (needsHeading) {
+            if (odo == null) {
+                heading = lastGoodHeading;
+                telemetry.addData("WARNING", "IMU UNAVAILABLE - USING FALLBACK");
             } else {
-                heading = rawHeading;
-                lastGoodHeading = heading; // Update history
+                double rawHeading = getHeading(imuPolarity);
+
+                // Check if IMU returned NaN (Singularity)
+                if (Double.isNaN(rawHeading)) {
+                    heading = lastGoodHeading; // Use last known safe angle
+                    telemetry.addData("WARNING", "IMU NAN DETECTED - USING FALLBACK");
+                } else {
+                    heading = rawHeading;
+                    lastGoodHeading = heading; // Update history
+                }
             }
         }
 
-        // 4. Calculate Kinematics (Vectors)
+        // 4. Heading Lock PIDF (Apply when rotation stick is released)
+        if (initialized && Math.abs(rot) < HEADING_LOCK_DEADBAND) {
+            if (!headingLockActive) {
+                headingLockTarget = heading;
+                headingLockPID.reset();
+                headingLockActive = true;
+            }
+            double headingError = AngleUnit.normalizeDegrees(headingLockTarget - heading);
+            rot = headingLockPID.pidOut(headingError);
+        } else {
+            if (headingLockActive) {
+                headingLockPID.reset();
+            }
+            headingLockActive = false;
+            headingLockTarget = heading;
+        }
+
+        // 5. Calculate Kinematics (Vectors)
         double[] output = kinematics.calculate(forward, -strafe, -rot, heading, fieldCentric, robotRadius);
 
         double mod1power = output[0];
@@ -129,12 +169,12 @@ public class SwerveDrive {
         double mod2reference = output[4];
         double mod3reference = output[5];
 
-        // 5. Locking Logic
+        // 6. Locking Logic
         if (forward != 0 || strafe != 0 || rot != 0 || !initialized) {
             initialized = true;
         }
 
-        // 6. Efficient Turn & PID
+        // 7. Efficient Turn & PID
         // Angle Wrap
         mod1P = mathsOperations.angleWrap(mod1P);
         mod2P = mathsOperations.angleWrap(mod2P);
@@ -154,17 +194,17 @@ public class SwerveDrive {
         double m2PID = mod2PID.pidOut(AngleUnit.normalizeDegrees(m2Eff[0] - mod2P));
         double m3PID = mod3PID.pidOut(AngleUnit.normalizeDegrees(m3Eff[0] - mod3P));
 
-        // 7. Differential Mixing (PID + Drive Power)
+        // 8. Differential Mixing (PID + Drive Power)
         double[] m1Out = mathsOperations.diffyConvert(-m1PID, m1Eff[1]);
         double[] m2Out = mathsOperations.diffyConvert(-m2PID, m2Eff[1]);
         double[] m3Out = mathsOperations.diffyConvert(-m3PID, m3Eff[1]);
 
-        // 8. Output
+        // 9. Output
         mod1m1.setPower(m1Out[0]); mod1m2.setPower(m1Out[1]);
         mod2m1.setPower(m2Out[0]); mod2m2.setPower(m2Out[1]);
         mod3m1.setPower(m3Out[0]); mod3m2.setPower(m3Out[1]);
 
-        // 9. Telemetry
+        // 10. Telemetry
         telemetry.addData("Heading", heading);
         telemetry.addData("M1 Angle/Ref", "%.1f / %.1f", mod1P, m1Eff[0]);
         telemetry.addData("M2 Angle/Ref", "%.1f / %.1f", mod2P, m2Eff[0]);
