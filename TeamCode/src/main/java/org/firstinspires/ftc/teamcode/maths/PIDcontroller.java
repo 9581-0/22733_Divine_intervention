@@ -73,4 +73,11 @@ public class PIDcontroller {
         this.Kl = KlS;
     }
 
+    public void reset() {
+        integralSum = 0;
+        lastError = 0;
+        out = 0;
+        timer.reset();
+    }
+
 }
