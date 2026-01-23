@@ -4,8 +4,10 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.subsystems.SwerveDrive;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @TeleOp(name = "Swerve TeleOp (Final)", group = "Main")
 public class SwerveTeleOp extends LinearOpMode {
@@ -29,6 +31,13 @@ public class SwerveTeleOp extends LinearOpMode {
 
         waitForStart();
 
+        double targetHeading = swerve.getHeadingDeg(SwerveTeleOpConfig.IMU_POLARITY);
+        boolean fieldCentric = SwerveTeleOpConfig.FIELD_CENTRIC;
+        boolean fieldCentricLatch = false;
+        double headingIntegral = 0;
+        double lastHeadingError = 0;
+        ElapsedTime headingTimer = new ElapsedTime();
+        headingTimer.reset();
 
 
 
@@ -45,7 +54,12 @@ public class SwerveTeleOp extends LinearOpMode {
             double botheadingX = gamepad1.right_stick_x;
             double hotheadingY = gamepad1.right_stick_y;
 
-            double rot = gamepad1.right_stick_x * rotScale;
+            if (!fieldCentricLatch && gamepad1.y) {
+                fieldCentric = !fieldCentric;
+                fieldCentricLatch = true;
+            } else if (!gamepad1.y) {
+                fieldCentricLatch = false;
+            }
 
             // 2. Drive Command 
             // We pass ALL config values here so they update live!
@@ -59,7 +73,7 @@ public class SwerveTeleOp extends LinearOpMode {
                 SwerveTeleOpConfig.Ki,
                 SwerveTeleOpConfig.Kf,
                 SwerveTeleOpConfig.Kl,
-                SwerveTeleOpConfig.FIELD_CENTRIC,
+                fieldCentric,
                 SwerveTeleOpConfig.IMU_POLARITY,
                 SwerveTeleOpConfig.ROBOT_RADIUS
             );

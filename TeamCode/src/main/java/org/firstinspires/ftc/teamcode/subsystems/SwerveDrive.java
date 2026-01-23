@@ -34,6 +34,9 @@ public class SwerveDrive {
     // Safety Variables
     private boolean initialized = false;
     private double lastGoodHeading = 180; // Failsafe for IMU singularity
+    private double lastMod1Reference = 0;
+    private double lastMod2Reference = 0;
+    private double lastMod3Reference = 0;
 
     public SwerveDrive(Telemetry telemetry, HardwareMap hardwareMap) {
         this.telemetry = telemetry;
@@ -137,7 +140,8 @@ public class SwerveDrive {
         double mod3reference = output[5];
 
         // 5. Locking Logic
-        if (forward != 0 || strafe != 0 || rot != 0 || !initialized) {
+        boolean hasCommand = Math.abs(forward) > 1e-4 || Math.abs(strafe) > 1e-4 || Math.abs(rot) > 1e-4;
+        if (hasCommand && !initialized) {
             initialized = true;
         }
 
@@ -150,6 +154,21 @@ public class SwerveDrive {
         mod1reference = mathsOperations.angleWrap(mod1reference);
         mod2reference = mathsOperations.angleWrap(mod2reference);
         mod3reference = mathsOperations.angleWrap(mod3reference);
+
+        if (!hasCommand) {
+            if (!initialized) {
+                lastMod1Reference = mod1P;
+                lastMod2Reference = mod2P;
+                lastMod3Reference = mod3P;
+            }
+            mod1reference = lastMod1Reference;
+            mod2reference = lastMod2Reference;
+            mod3reference = lastMod3Reference;
+        } else {
+            lastMod1Reference = mod1reference;
+            lastMod2Reference = mod2reference;
+            lastMod3Reference = mod3reference;
+        }
 
         // Efficient Turn
         double[] m1Eff = mathsOperations.efficientTurn(mod1reference, mod1P, mod1power);
@@ -186,6 +205,10 @@ public class SwerveDrive {
 
     private double getHeading(double polarity) {
         return AngleUnit.normalizeDegrees(odo.getHeading(AngleUnit.DEGREES) * polarity - imuOffset);
+    }
+
+    public double getHeadingDeg(double polarity) {
+        return getHeading(polarity);
     }
 
     public void resetIMU() {

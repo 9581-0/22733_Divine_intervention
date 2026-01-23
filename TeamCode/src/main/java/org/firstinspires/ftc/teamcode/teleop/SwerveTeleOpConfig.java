@@ -29,6 +29,13 @@ public class SwerveTeleOpConfig {
     public static double ROTATION_SPEED_SCALAR = 0.8;
     public static boolean FIELD_CENTRIC = true;
     public static boolean USE_IMU = true;
+
+    public static boolean HEADING_HOLD_ENABLED = true;
+    public static double HEADING_HOLD_KP = 0.002;
+    public static double HEADING_HOLD_KI = 0.00005;
+    public static double HEADING_HOLD_KD = 0.0001;
+    public static double HEADING_STICK_DEADBAND = 0.2;
+    public static double HEADING_HOLD_INTEGRAL_LIMIT = 15.0;
     
     // Set to -1 if rotating the robot clockwise makes heading DECREASE
     public static double IMU_POLARITY = -1.0; 
