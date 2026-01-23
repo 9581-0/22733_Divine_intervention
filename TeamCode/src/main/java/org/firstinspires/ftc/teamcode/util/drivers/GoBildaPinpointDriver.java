@@ -32,6 +32,7 @@ import com.qualcomm.robotcore.hardware.configuration.annotations.DevicePropertie
 import com.qualcomm.robotcore.hardware.configuration.annotations.I2cDeviceType;
 import com.qualcomm.robotcore.util.TypeConversion;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.util.Pose2d;
 
 import java.nio.ByteBuffer;
@@ -405,7 +406,7 @@ public class GoBildaPinpointDriver extends I2cDeviceSynchDevice<I2cDeviceSynchSi
     /**
      * @return the estimated H (heading) position of the robot in Radians
      */
-    public double getHeading(){return hOrientation;}
+    public double getHeading(AngleUnit degrees){return hOrientation;}
     /**
      * @return the estimated X (forward) velocity of the robot in mm/sec
      */

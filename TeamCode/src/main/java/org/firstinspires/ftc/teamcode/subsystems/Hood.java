@@ -24,7 +24,7 @@ public class Hood {
 
     public void setPosition(double target){
         pos = Utils.minMaxClip(target, SERVOMIN, SERVOMAX);
-        servo.setPosition(pos);
+        // servo.setPosition(pos);
     }
  
     public void setAngle(double target) {

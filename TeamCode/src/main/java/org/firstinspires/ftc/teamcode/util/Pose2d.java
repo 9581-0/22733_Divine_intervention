@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 
 import androidx.annotation.NonNull;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+
 public class Pose2d implements Cloneable {
     public double x;
     public double y;
@@ -59,6 +61,10 @@ public class Pose2d implements Cloneable {
         }
         return angle;
     }
+
+    // public Pose2d convertPose2D(Pose2D pose){
+    //     return new Pose2d(pose.getX(), pose.getY(), pose.getHeading());
+    // }
 
     @NonNull
     @Override

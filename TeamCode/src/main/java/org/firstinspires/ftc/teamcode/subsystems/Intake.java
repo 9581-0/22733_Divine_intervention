@@ -34,6 +34,7 @@ public class Intake extends Feature {
     public String toString() {
         return "Intake{" +
                 ", pow=" + pow +
+                ", actual pow = " + motor.getPower() +
                 '}';
     }
 }

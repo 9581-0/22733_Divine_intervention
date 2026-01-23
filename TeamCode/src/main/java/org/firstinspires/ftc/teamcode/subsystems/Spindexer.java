@@ -21,15 +21,17 @@ public class Spindexer {
     private Sensorange encoder;
 
     private StateMachine state;
-    public static double P = 0.05, D = 0.001;
+    public static double P = 0.003, D = 0.0005;
     private PIDF pid = new PIDF(P, D);
-    private double target;
+    private double maxServoSpeed = 0.3;
+    private double target = -44;
 
     private ArrayList<String> motif = new ArrayList<>();
     private ArrayList<String> stored = new ArrayList<>();
     private boolean requestFire, requestSort, requestIdle = false;
     private boolean sort = false;
-
+    private boolean sorted = false;
+    private String status = "NO, THE THING IS NOT RUNNING";
 
     public Spindexer(HardwareMap map){
         LServo = map.get(CRServo.class, "IndexServoL");
@@ -40,10 +42,11 @@ public class Spindexer {
         colora = map.get(ColorSensor.class, "color1");
         colorb = map.get(ColorSensor.class, "color2");
         colorc = map.get(ColorSensor.class, "color3");
+        stored.add("E");
+        stored.add("E");
+        stored.add("E");
 
         pid.setTolerance(3);
-
-        scanDexer();
 
         // State[] states = createStates();
         // state = new StateMachine(states);
@@ -91,9 +94,10 @@ public class Spindexer {
     // }
 
     public void update(){
-        if (runPID()){
-            stored = scanDexer();
-            if (sort) {
+        encoder.calculateValue();
+        if (!runPID()){
+            if (sort && !sorted) {
+                scanDexer();
                 int p = 0, g = 0;
                 for (String s : stored) {
                     p += s.equals("P") ? 1 : 0;
@@ -109,6 +113,7 @@ public class Spindexer {
                         target += 120;
                     }
                 }
+                sorted = g + p == 3;
             } else {
                 moveEmptySlot();
             }
@@ -116,43 +121,46 @@ public class Spindexer {
     }
 
     public void shoot(){
+        sorted = false;
         target -= 360;
-        for (int i = 2; i >= 0; i--) {
-            if (stored.get(i).equals("E")){
-                target += 120;
-            } else {break;}
-        }
+        // for (int i = 2; i >= 0; i--) {
+        //     if (stored.get(i).equals("E")){
+        //         target += 120;
+        //     } else {break;}
+        // }
     }
 
     private void moveEmptySlot(){
-        target += stored.indexOf("E") % 2 == 0 ? (stored.indexOf("E") + 2) * 120 : 0;
+        //target += stored.indexOf("E") % 2 == 0 ? (stored.indexOf("E") + 2) * 120 : 0;
     }
 
     private void setPower(double pow){
-        LServo.setPower(pow);
-        RServo.setPower(pow);
+        double actualpow = Math.max(-maxServoSpeed, Math.min(pow, maxServoSpeed));
+        LServo.setPower(actualpow);
+        RServo.setPower(actualpow);
     }
 
-    public ArrayList scanDexer(){
+    public void scanDexer(){
         stored.clear();
         stored.add(detectColor(colora));
         stored.add(detectColor(colorb));
         stored.add(detectColor(colorc));
-        return stored;
     }
 
     private String detectColor(ColorSensor sensor) {
         int r = sensor.red();
         int g = sensor.green();
         int b = sensor.blue();
-        if (g > r && g > b && g > 100) {return "G";}
-        if (b > 70 && r > 70 && g < 70) {return "P";}
+        status = "r: " + r + " g: " + g + " b: " + b;
+        if (g > r && g > b && g - b > 100) {return "G";}
+        if (b > g && b - g > 200 && r > 500) {return "P";}
         return "E";
     }
 
     private boolean runPID(){
         setPower(pid.calculate(encoder.getPosition(), target));
         return pid.atSetPoint();
+        //return true;
     }
 
     public boolean isFull(){
@@ -160,7 +168,8 @@ public class Spindexer {
     }
 
     public boolean isEmpty(){
-        return stored.indexOf("P") == -1 && stored.indexOf("G") == -1;
+        return pid.atSetPoint();
+        //return stored.indexOf("P") == -1 && stored.indexOf("G") == -1;
     }
 
     public boolean isIdle(){
@@ -170,12 +179,18 @@ public class Spindexer {
     public void enableSort(){sort = true;}
     public void disableSort(){sort = false;}
 
+    public void pleasekillmeiwannadie(){setPower(0.5);}
+    public void youbetterflymeouttoworlds(){setPower(-0.5);}
+    public void iamsacrificingmyfutureforthis(){setPower(0);}
+
     @Override
     public String toString(){
         return "Spindexer {" +
-                "sensorA =" + colora.red() + " " + colora.green() + " " + colora.blue() + stored.get(0) +
-                "sensorB =" + colorb.red() + " " + colorb.green() + " " + colorb.blue() + stored.get(1) +
-                "sensorC =" + colorc.red() + " " + colorc.green() + " " + colorc.blue() + stored.get(2)
+                // "sensorA =" + colora.red() + " " + colora.green() + " " + colora.blue() + stored.get(0) +
+                // "sensorB =" + colorb.red() + " " + colorb.green() + " " + colorb.blue() + stored.get(1) +
+                // "sensorC =" + colorc.red() + " " + colorc.green() + " " + colorc.blue() + stored.get(2) +
+                "ENCODER!! ENCODER!! " + encoder.getPosition() + 
+                "TARGET " + target
                 + "}";
     }
 }

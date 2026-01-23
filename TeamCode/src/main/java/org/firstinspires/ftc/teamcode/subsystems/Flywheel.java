@@ -6,13 +6,12 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
  
 import org.firstinspires.ftc.teamcode.util.PIDF;
 import org.firstinspires.ftc.teamcode.util.templates.Feature;
- 
-import java.util.ArrayList;
+
 import java.util.function.Supplier;
  
 public class Flywheel extends Feature {
  
-    private final static double Tmotor = 20.0, Tshaft = 20.0;
+    private final static double Tmotor = 20.0, Tshaft = 39.0;
     private DcMotorEx motor;
     private VoltageSensor voltage;
     public static double P = 0.4, D = 0.0, kV = 0.000006;
@@ -42,7 +41,7 @@ public class Flywheel extends Feature {
         pow = velPID.calculate(currentVel, targetVel.get());
         pow /= voltage.getVoltage();
  
-        motor.setPower(pow);
+        //motor.setPower(-pow);
     }
  
     public Flywheel setVelocity(double target) {

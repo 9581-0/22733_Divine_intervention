@@ -12,6 +12,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 @TeleOp(name = "Swerve TeleOp (Final)", group = "Main")
 public class SwerveTeleOp extends LinearOpMode {
 
+    long lastLoopTime = 0;
+
+
     @Override
     public void runOpMode() {
         // Setup Telemetry (Phone + Dashboard)
@@ -45,34 +48,11 @@ public class SwerveTeleOp extends LinearOpMode {
             double driveScale = SwerveTeleOpConfig.DRIVE_SPEED_SCALAR;
             double rotScale = SwerveTeleOpConfig.ROTATION_SPEED_SCALAR;
             
-            double strafe = gamepad1.left_stick_x * driveScale;
+            double strafe = -gamepad1.left_stick_x * driveScale;
             double forward = -gamepad1.left_stick_y * driveScale;
 
-            double headingStickX = gamepad1.right_stick_x;
-            double headingStickY = -gamepad1.right_stick_y;
-
-            double rot = headingStickX * rotScale;
-            if (SwerveTeleOpConfig.HEADING_HOLD_ENABLED) {
-                double headingMagnitude = Math.hypot(headingStickX, headingStickY);
-                if (headingMagnitude > SwerveTeleOpConfig.HEADING_STICK_DEADBAND) {
-                    targetHeading = Math.toDegrees(Math.atan2(headingStickX, headingStickY));
-                    headingIntegral = 0;
-                }
-                double currentHeading = swerve.getHeadingDeg(SwerveTeleOpConfig.IMU_POLARITY);
-                double headingError = AngleUnit.normalizeDegrees(targetHeading - currentHeading);
-                double dt = Math.max(headingTimer.seconds(), 1e-3);
-                headingTimer.reset();
-                headingIntegral += headingError * dt;
-                headingIntegral = Math.max(-SwerveTeleOpConfig.HEADING_HOLD_INTEGRAL_LIMIT,
-                    Math.min(SwerveTeleOpConfig.HEADING_HOLD_INTEGRAL_LIMIT, headingIntegral));
-                double headingDerivative = (headingError - lastHeadingError) / dt;
-                lastHeadingError = headingError;
-                double pidOutput =
-                    (headingError * SwerveTeleOpConfig.HEADING_HOLD_KP) +
-                    (headingIntegral * SwerveTeleOpConfig.HEADING_HOLD_KI) +
-                    (headingDerivative * SwerveTeleOpConfig.HEADING_HOLD_KD);
-                rot = Math.max(-1.0, Math.min(1.0, pidOutput)) * rotScale;
-            }
+            double botheadingX = gamepad1.right_stick_x;
+            double hotheadingY = gamepad1.right_stick_y;
 
             if (!fieldCentricLatch && gamepad1.y) {
                 fieldCentric = !fieldCentric;
@@ -108,6 +88,12 @@ public class SwerveTeleOp extends LinearOpMode {
 
 
 
+            long currentTime = System.currentTimeMillis();
+            long loopTime = currentTime - lastLoopTime;
+            lastLoopTime = currentTime;
+
+            telemetry.addData("Loop Time (ms)", loopTime);
+            telemetry.addData("Frequency (Hz)", 1000.0 / loopTime);
 
 
 

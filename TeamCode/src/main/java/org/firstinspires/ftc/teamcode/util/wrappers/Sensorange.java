@@ -10,8 +10,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 public class Sensorange{
 
     private AnalogInput encoder;
-    private double lastCheckedPosition, fullRotations;
-    private Double currentAbsoluteAngle;
+    private double lastCheckedPosition = 0, fullRotations = 0;
+    private double currentAbsoluteAngle = 0;
 
 
     public Sensorange (String name, HardwareMap map) {
@@ -22,22 +22,20 @@ public class Sensorange{
     }
 
     public void calculateValue() {
-        double encoderResult = (encoder.getVoltage() / 3.3) * 360;
+        double encoderResult = AngleUnit.normalizeDegrees((encoder.getVoltage() - 0.043) / 3.1 * 360);
 
-        if (lastCheckedPosition >= 180 && encoderResult <= 180) {
+        if (lastCheckedPosition - encoderResult > 200) {
             fullRotations++;
-        } else if (lastCheckedPosition <= 180 && encoderResult >= 180) {
+        } else if (lastCheckedPosition - encoderResult < -200) {
             fullRotations--;
         }
 
-        if (currentAbsoluteAngle != null) {
-            currentAbsoluteAngle = encoderResult + fullRotations * 360;
-        }
+        currentAbsoluteAngle = encoderResult + fullRotations * 360;
 
         lastCheckedPosition = encoderResult;
     }
 
-    public Double getValue() {
+    public double getValue() {
         return lastCheckedPosition;
     }
 

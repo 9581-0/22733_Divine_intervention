@@ -1,24 +1,23 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.maths.PIDcontroller;
 import org.firstinspires.ftc.teamcode.maths.mathsOperations;
 import org.firstinspires.ftc.teamcode.maths.swerveKinematics;
+import org.firstinspires.ftc.teamcode.util.drivers.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.utility.myDcMotorEx;
 import org.firstinspires.ftc.teamcode.teleop.SwerveTeleOpConfig;
 
 public class SwerveDrive {
 
-    private final IMU imu;
+    private final GoBildaPinpointDriver odo;
     private final myDcMotorEx mod1m1, mod1m2, mod2m1, mod2m2, mod3m1, mod3m2;
     private final AnalogInput mod1E, mod2E, mod3E;
     private Telemetry telemetry;
@@ -71,14 +70,12 @@ public class SwerveDrive {
 
 
         // --- IMU CONFIGURATION (FIXED) ---
-        imu = hardwareMap.get(IMU.class, "imu");
+        odo = hardwareMap.get(GoBildaPinpointDriver.class, "odo");
+        odo.setOffsets(0, 0);
+        odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD,
+                GoBildaPinpointDriver.EncoderDirection.FORWARD);
 
-        // FIX: Changed to BACKWARD/UP to match vertical mounting on back of robot
-        IMU.Parameters params = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP));
-
-        imu.initialize(params);
     }
 
     public void driveWithConfig(double strafe, double forward, double rot){
@@ -207,7 +204,7 @@ public class SwerveDrive {
     }
 
     private double getHeading(double polarity) {
-        return AngleUnit.normalizeDegrees(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) * polarity - imuOffset);
+        return AngleUnit.normalizeDegrees(odo.getHeading(AngleUnit.DEGREES) * polarity - imuOffset);
     }
 
     public double getHeadingDeg(double polarity) {
@@ -215,7 +212,7 @@ public class SwerveDrive {
     }
 
     public void resetIMU() {
-        imuOffset = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+        imuOffset = odo.getHeading(AngleUnit.DEGREES);
     }
 
 

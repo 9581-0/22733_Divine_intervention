@@ -6,10 +6,11 @@ import org.firstinspires.ftc.teamcode.util.Pose2d;
 
 import org.firstinspires.ftc.teamcode.subsystems.Robot;
 
-@TeleOp(name="Mech Teleop", group="Human Teleop")
+@TeleOp(name="A Shrimp made this teleop", group="Human Teleop")
 public class MechTeleOp extends LinearOpMode{
+    long lastLoopTime = 0;
     Robot robot;
-    Pose2d goal;
+    Pose2d goal = new Pose2d(0, 0);
 
     private static final double HOOD_STEP = 0.02;
     private static final double TURRET_STEP = 5.0;
@@ -32,7 +33,7 @@ public class MechTeleOp extends LinearOpMode{
         waitForStart();
 
         while(opModeIsActive()){
-            double strafe = gamepad1.left_stick_x;
+            double strafe = -gamepad1.left_stick_x;
             double forward = -gamepad1.left_stick_y;
             double rot = gamepad1.right_stick_x;
             robot.drive(strafe, forward, rot);
@@ -48,9 +49,8 @@ public class MechTeleOp extends LinearOpMode{
 
             if (gamepad1.right_trigger > 0.05) {
                 robot.requestIntake();
-                telemetry.addData("trigger being held", "yes");
-            } else {
-                robot.setIntakePower(0);
+            } else if (gamepad1.left_trigger > 0.05) {
+                robot.requestOuttake();
             }
 
             if (gamepad1.left_bumper) {
@@ -85,7 +85,21 @@ public class MechTeleOp extends LinearOpMode{
                 goalSelectLatch = false;
             }
 
+            if (gamepad1.a) {
+                robot.iamsacrificingmyfutureforthis();
+            } else if (gamepad1.x) {
+                robot.pleasekillmeiwannadie();
+            } else if (gamepad1.y) {
+                robot.youbetterflymeouttoworlds();
+            }
+
             robot.update();
+            long currentTime = System.currentTimeMillis();
+            long loopTime = currentTime - lastLoopTime;
+            lastLoopTime = currentTime;
+            telemetry.addData("Loop Time (ms)", loopTime);
+            telemetry.addData("Frequency (Hz)", 1000.0 / loopTime);
+
 
             telemetry.addData("Status", robot.toString());
             telemetry.addData("Auto-aim goal", goal);
