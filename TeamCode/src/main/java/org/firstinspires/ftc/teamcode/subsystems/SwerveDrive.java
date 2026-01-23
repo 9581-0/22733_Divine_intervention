@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.teleop.SwerveTeleOpConfig;
 
 public class SwerveDrive {
 
-    private final GoBildaPinpointDriver odo;
+    private GoBildaPinpointDriver odo;
     private final myDcMotorEx mod1m1, mod1m2, mod2m1, mod2m2, mod3m1, mod3m2;
     private final AnalogInput mod1E, mod2E, mod3E;
     private Telemetry telemetry;
@@ -65,13 +65,6 @@ public class SwerveDrive {
         mod2m2.setDirection(DcMotorSimple.Direction.FORWARD);
         mod3m2.setDirection(DcMotorSimple.Direction.FORWARD);
 
-
-        // --- IMU CONFIGURATION (FIXED) ---
-        odo = hardwareMap.get(GoBildaPinpointDriver.class, "odo");
-        odo.setOffsets(0, 0);
-        odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD,
-                GoBildaPinpointDriver.EncoderDirection.FORWARD);
 
     }
 
@@ -235,5 +228,9 @@ public class SwerveDrive {
 
     public void updateTelemetry(Telemetry telem){
         telemetry = telem;
+    }
+
+    public void updateOdo(GoBildaPinpointDriver odom){
+        odo = odom;
     }
 }

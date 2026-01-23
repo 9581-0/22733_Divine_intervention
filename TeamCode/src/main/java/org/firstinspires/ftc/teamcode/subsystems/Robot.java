@@ -41,6 +41,7 @@ public class Robot {
         swerve = new SwerveDrive(telemetry, map);
 
         odo = map.get(GoBildaPinpointDriver.class, "odo");
+        swerve.updateOdo(odo);
 
         pose = new Pose2d(0, 0, Math.toRadians(0));
         goal = new Pose2d(0, 0, Math.toRadians(0));
