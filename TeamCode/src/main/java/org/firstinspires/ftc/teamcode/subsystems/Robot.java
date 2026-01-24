@@ -43,9 +43,9 @@ public class Robot {
         spindex = new Spindexer(map);
         intake = new Intake(map);
         swerve = new SwerveDrive(telemetry, map);
+
         odo = map.get(GoBildaPinpointDriver.class, "odo");
-
-
+        odo.setOffsets(0, 0);
         swerve.updateOdo(odo);
 
         pose = new Pose2d(0, 0, Math.toRadians(0));
