@@ -17,16 +17,19 @@ import org.firstinspires.ftc.teamcode.util.drivers.GoBildaPinpointDriver;
 public class Robot {
     private final StateMachine state;
 
+    //Subsystems
     private final Shooter shooter;
     private final Spindexer spindex;
     private final Intake intake;
     private final SwerveDrive swerve;
     private final GoBildaPinpointDriver odo;
 
+    //State variables
     private boolean requestIntake = false, requestOuttake = false, requestShot = false, requestSort = false, requestIdle = false;
     private Pose2d pose, goal;
     private Telemetry telemetry;
 
+    //PID Constants
     public static double tP = 0.005, tD = 0.0005;
     private PIDF tpid = new PIDF(tP, tD);
     public static double rP = 0.01, rD = 0.001;
@@ -35,12 +38,14 @@ public class Robot {
     private List<LynxModule> allHubs;
 
     public Robot (HardwareMap map) {
+        //Subsystems
         shooter = new Shooter(map);
         spindex = new Spindexer(map);
         intake = new Intake(map);
         swerve = new SwerveDrive(telemetry, map);
-
         odo = map.get(GoBildaPinpointDriver.class, "odo");
+
+
         swerve.updateOdo(odo);
 
         pose = new Pose2d(0, 0, Math.toRadians(0));
