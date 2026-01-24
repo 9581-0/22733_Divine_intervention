@@ -70,8 +70,6 @@ public class SwerveTeleOp extends LinearOpMode {
                 gamepad1.rumble(500);
             }
 
-            //shooter
-
 
 
             long currentTime = System.currentTimeMillis();
