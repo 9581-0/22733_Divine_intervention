@@ -3,13 +3,14 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
  
+import org.firstinspires.ftc.teamcode.utility.myDcMotorEx;
 import org.firstinspires.ftc.teamcode.util.templates.Feature;
  
 import java.util.ArrayList;
  
 public class Intake extends Feature {
  
-    private DcMotorEx motor;
+    private myDcMotorEx motor;
     private boolean needsUpdate = false;
     private double pow = 0;
  

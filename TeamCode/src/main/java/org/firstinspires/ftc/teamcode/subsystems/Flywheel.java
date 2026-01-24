@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
  
+import org.firstinspires.ftc.teamcode.utility.myDcMotorEx;
 import org.firstinspires.ftc.teamcode.util.PIDF;
 import org.firstinspires.ftc.teamcode.util.templates.Feature;
 
@@ -12,7 +13,7 @@ import java.util.function.Supplier;
 public class Flywheel extends Feature {
  
     private final static double Tmotor = 20.0, Tshaft = 39.0;
-    private DcMotorEx motor;
+    private myDcMotorEx motor;
     private VoltageSensor voltage;
     public static double P = 0.4, D = 0.0, kV = 0.000006;
     private Supplier<Double> targetVel = () -> 0.0;

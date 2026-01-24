@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.CRServo;
 
 import org.firstinspires.ftc.teamcode.util.PIDF;
+import org.firstinspires.ftc.teamcode.utility.CrServoCaching;
 import org.firstinspires.ftc.teamcode.util.wrappers.Sensorange;
 
 public class Spindexer {
@@ -17,8 +18,8 @@ public class Spindexer {
 
     /* ================= HARDWARE ================= */
 
-    private final CRServo leftServo;
-    private final CRServo rightServo;
+    private final CrServoCaching leftServo;
+    private final CrServoCaching rightServo;
 
     private final ColorSensor colorA;
     private final ColorSensor colorB;
@@ -29,6 +30,7 @@ public class Spindexer {
     /* ================= STATE ================= */
 
     private final Pixel[] stored = new Pixel[3];
+    public int greenMotif = 0;
 
     private boolean sortEnabled = false;
     private boolean sorted = false;
@@ -115,14 +117,17 @@ public class Spindexer {
         if (sorted) return;
 
         if (total < 3 && emptyIndex != -1) {
-            moveEmptySlot();
+            //moveEmptySlot();
+            sorted = true;
             return;
         }
 
         // Example logic: rotate to align GREEN
         if (greenCount == 1 && greenIndex != 0) {
-            target += 120 * ((greenIndex + 3) % 3);
+            target += 120 * ((greenIndex - greenMotif + 3) % 3);
         }
+
+        // screw slopdexer it doesnt sort 2g1p ill do that later
     }
 
     /* ================= SENSOR SCAN ================= */
