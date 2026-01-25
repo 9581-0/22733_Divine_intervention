@@ -3,9 +3,7 @@ package org.firstinspires.ftc.teamcode.utility;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ServoController;
 
-public class CrServoCaching {
-
-    public class CachingCRServo implements CRServo {
+public class CrServoCaching extends CRServo {
         protected final CRServo crServo;
         protected double cachingTolerance;
         private double cachedPower = Double.NaN;
@@ -15,7 +13,7 @@ public class CrServoCaching {
          * @param cachingTolerance the power delta threshold at which a power write will occur.
          */
         public CachingCRServo(CRServo crServo) {
-            this(crServo, 0.005);
+            CachingCRServo(crServo, 0.005);
         }
 
         public CachingCRServo(CRServo crServo, double cachingTolerance) {
@@ -136,5 +134,4 @@ public class CrServoCaching {
         public int getPortNumber() {
             return 0;
         }
-    }
 }
