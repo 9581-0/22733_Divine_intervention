@@ -12,11 +12,11 @@ public class CrServoCaching extends CRServo {
          * @param crServo the continuous rotation servo to encapsulate in the caching control
          * @param cachingTolerance the power delta threshold at which a power write will occur.
          */
-        public CachingCRServo(CRServo crServo) {
-            CachingCRServo(crServo, 0.005);
+        public CrServoCaching(CRServo crServo) {
+            CrServoCaching(crServo, 0.005);
         }
 
-        public CachingCRServo(CRServo crServo, double cachingTolerance) {
+        public CrServoCaching(CRServo crServo, double cachingTolerance) {
             this.crServo = crServo;
             this.cachingTolerance = cachingTolerance;
         }
