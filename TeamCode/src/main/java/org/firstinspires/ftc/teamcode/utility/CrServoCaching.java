@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.utility;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ServoController;
 
-public class CrServoCaching extends CRServo {
+public class CrServoCaching implements CRServo {
         protected final CRServo crServo;
         protected double cachingTolerance;
         private double cachedPower = Double.NaN;
@@ -12,8 +12,9 @@ public class CrServoCaching extends CRServo {
          * @param crServo the continuous rotation servo to encapsulate in the caching control
          * @param cachingTolerance the power delta threshold at which a power write will occur.
          */
-        public CrServoCaching(CRServo crServo) {
-            CrServoCaching(crServo, 0.005);
+        public CrServoCaching(CRServo crServo, CRServo crServo1) {
+            this.crServo = crServo1;
+            new CrServoCaching(crServo, 0.005);
         }
 
         public CrServoCaching(CRServo crServo, double cachingTolerance) {

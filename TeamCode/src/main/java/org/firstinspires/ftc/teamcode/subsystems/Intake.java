@@ -15,7 +15,7 @@ public class Intake extends Feature {
     private double pow = 0;
  
     public Intake (HardwareMap map) {
-        motor = map.get(DcMotorEx.class, "intake");
+        motor = new myDcMotorEx(map.get(DcMotorEx.class, "intake"));
     }
  
     @Override
