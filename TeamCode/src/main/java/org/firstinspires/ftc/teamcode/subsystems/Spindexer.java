@@ -37,13 +37,13 @@ public class Spindexer {
 
     /* ================= PID ================= */
 
-    public static double P = 0.0015;
+    public static double P = 0.01;
     public static double D = 0.0005;
 
     private final PIDF pid = new PIDF(P, D);
     private double target = -44;
     private double targetTwo = -44;
-    private final double maxServoSpeed = 0.3;
+    private final double maxServoSpeed = 0.5;
 
     /* ================= TIMING ================= */
 
