@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 public class Flywheel extends Feature {
  
     private final static double Tmotor = 20.0, Tshaft = 39.0;
-    private myDcMotorEx motor;
+    final private myDcMotorEx motor;
     private VoltageSensor voltage;
     public static double P = 0.4, D = 0.0, kV = 0.000006;
     private Supplier<Double> targetVel = () -> 0.0;

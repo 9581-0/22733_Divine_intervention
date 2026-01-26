@@ -10,8 +10,6 @@ import org.firstinspires.ftc.teamcode.util.Pose2d;
 import org.firstinspires.ftc.teamcode.util.PIDF;
 import org.firstinspires.ftc.teamcode.util.statemachine.Transition;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.subsystems.*;
-
 import org.firstinspires.ftc.teamcode.util.drivers.GoBildaPinpointDriver;
 
 public class Robot {

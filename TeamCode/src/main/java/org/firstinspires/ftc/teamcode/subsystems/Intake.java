@@ -10,7 +10,7 @@ import java.util.ArrayList;
  
 public class Intake extends Feature {
  
-    private myDcMotorEx motor;
+    final private myDcMotorEx motor;
     private boolean needsUpdate = false;
     private double pow = 0;
  

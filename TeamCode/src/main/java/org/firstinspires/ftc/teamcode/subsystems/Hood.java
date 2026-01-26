@@ -10,7 +10,7 @@ import java.util.ArrayList;
  
 public class Hood {
  
-    private Servo servo;
+    final private Servo servo;
     private boolean needsUpdate = false;
     private double pos = 0;
 
