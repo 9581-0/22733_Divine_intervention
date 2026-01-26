@@ -41,7 +41,7 @@ public class Flywheel extends Feature {
         pow = velPID.calculate(currentVel, targetVel.get());
         pow /= voltage.getVoltage();
  
-        //motor.setPower(-pow);
+        motor.setPower(-pow);
     }
  
     public Flywheel setVelocity(double target) {
