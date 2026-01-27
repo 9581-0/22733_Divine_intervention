@@ -223,7 +223,7 @@ public class Spindexer {
     }
 
     public boolean isEmpty() {
-        return emptyCount == 3;
+        return pid.atSetPoint();
     }
 
     public boolean isFull() {
