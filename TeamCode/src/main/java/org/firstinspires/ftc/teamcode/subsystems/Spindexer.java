@@ -96,6 +96,7 @@ public class Spindexer {
     /* ================= SORT LOGIC ================= */
 
     private void runSortLogic() {
+        if (sorted) return;
 
         int greenCount = 0;
         int purpleCount = 0;
@@ -116,8 +117,6 @@ public class Spindexer {
 
         int total = greenCount + purpleCount;
         sorted = (total == 3);
-
-        if (sorted) return;
 
         if (total < 3 && emptyIndex != -1) {
             //moveEmptySlot();
