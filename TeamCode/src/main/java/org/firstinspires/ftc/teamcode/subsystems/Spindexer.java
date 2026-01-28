@@ -121,14 +121,14 @@ public class Spindexer {
         if (total < 3 && emptyIndex != -1) {
             //moveEmptySlot();
             sorted = true;
-            return;
         }
 
         // Example logic: rotate to align GREEN
-        if (greenCount == 1 && greenIndex != 0) {
+        if (greenCount == 1 && greenIndex != greenMotif) {
             double toSort = 120 * ((greenIndex - greenMotif + 3) % 3);
             target += 360 + toSort;
             targetTwo += toSort;
+            beufbrubf = toSort;
         }
 
         // screw slopdexer it doesnt sort 2g1p ill do that later
@@ -172,8 +172,6 @@ public class Spindexer {
     /* ================= PID ================= */
 
     private boolean runPID() {
-        beufbrubf = "YOU FAILED TO SKIN A CAT";
-
         pid.setSetPoint(target);
         if (pid.atSetPoint()) {
             setPower(0);
@@ -218,7 +216,7 @@ public class Spindexer {
     }
 
     public boolean isIdle() {
-        return pid.atSetPoint();
+        return true;
     }
 
     public boolean isEmpty() {
@@ -235,7 +233,7 @@ public class Spindexer {
     
     @Override 
     public String toString(){ 
-        return "Spindexer {" + 
+        return "Spindexer {" + stored[0] + stored[1] + stored[2] +
             // "sensorA =" + colora.red() + " " + colora.green() + " " + colora.blue() + stored.get(0) + 
             // "sensorB =" + colorb.red() + " " + colorb.green() + " " + colorb.blue() + stored.get(1) + 
             // "sensorC =" + colorc.red() + " " + colorc.green() + " " + colorc.blue() + stored.get(2) + 
