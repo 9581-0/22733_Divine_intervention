@@ -29,9 +29,9 @@ public class Robot {
 
     //PID Constants
     public static double tP = 0.005, tD = 0.0005;
-    private PIDF tpid = new PIDF(tP, tD);
+    private final PIDF tpid = new PIDF(tP, tD);
     public static double rP = 0.01, rD = 0.001;
-    private PIDF rpid = new PIDF(rP, rD);
+    private final PIDF rpid = new PIDF(rP, rD);
 
     private List<LynxModule> allHubs;
 

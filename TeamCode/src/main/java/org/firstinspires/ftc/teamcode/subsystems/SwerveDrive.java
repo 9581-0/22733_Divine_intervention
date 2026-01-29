@@ -106,7 +106,7 @@ public class SwerveDrive {
             forward = 0; strafe = 0; rot = 0;
         }
 
-        // 1. Update PID Coeffs
+        // 1. Update PID Coefficients
         mod1PID.setPIDgains(Kp, Kd, Ki, Kf, Kl);
         mod2PID.setPIDgains(Kp, Kd, Ki, Kf, Kl);
         mod3PID.setPIDgains(Kp, Kd, Ki, Kf, Kl);
@@ -137,7 +137,7 @@ public class SwerveDrive {
             }
         }
 
-        // 4. Heading Lock PIDF (Apply when rotation stick is released)
+        // 4. Heading Lock PID (Apply when rotation stick is released)
         if (initialized && Math.abs(rot) < HEADING_LOCK_DEADBAND) {
             if (!headingLockActive) {
                 headingLockTarget = heading;

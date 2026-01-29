@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.teamcode.utility.myDcMotorEx;
 import org.firstinspires.ftc.teamcode.util.templates.Feature;
  
-import java.util.ArrayList;
+
  
 public class Intake extends Feature {
  

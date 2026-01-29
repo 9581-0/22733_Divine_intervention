@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -12,7 +11,7 @@ public class Turret {
     public static final double GEAR_RATIO = 80/30*37/112, SERVO_TO_ANGLE = 300;
     public double GOAL_X, GOAL_Y;
 
-    private Servo LServo, RServo;
+    private final Servo LServo, RServo;
     private GoBildaPinpointDriver odo;
 
     public double target;

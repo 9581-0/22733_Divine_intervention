@@ -17,7 +17,7 @@ public class Flywheel extends Feature {
     private VoltageSensor voltage;
     public static double P = 0.4, D = 0.0, kV = 0.000006;
     private Supplier<Double> targetVel = () -> 0.0;
-    private PIDF velPID = new PIDF(P,D, () -> (targetVel.get() * kV));
+    private final PIDF velPID = new PIDF(P,D, () -> (targetVel.get() * kV));
     private double currentVel, pow;
  
     public Flywheel (HardwareMap map) {

@@ -3,11 +3,8 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
  
-import org.firstinspires.ftc.teamcode.util.templates.Feature;
 import org.firstinspires.ftc.teamcode.util.Utils;
- 
-import java.util.ArrayList;
- 
+
 public class Hood {
  
     final private Servo servo;
