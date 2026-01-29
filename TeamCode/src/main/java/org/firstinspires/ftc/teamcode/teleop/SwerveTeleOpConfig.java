@@ -46,6 +46,6 @@ public class SwerveTeleOpConfig {
     public static double HEADING_LOCK_KD = 0.0001;
     public static  double HEADING_LOCK_KF = 0.00005;
     public static  double HEADING_LOCK_KL = 0.1;
-    public static double HEADING_LOCK_DEADBAND = 1e-3;
+    public static double HEADING_LOCK_DEADBAND = 0.2;
 
 }

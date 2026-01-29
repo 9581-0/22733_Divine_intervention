@@ -128,7 +128,7 @@ public class Spindexer {
             double toSort = 120 * ((greenIndex - greenMotif + 3) % 3);
             target += 360 + toSort;
             targetTwo += toSort;
-            beufbrubf = toSort;
+            beufbrubf = "" + toSort;
         }
 
         // screw slopdexer it doesnt sort 2g1p ill do that later

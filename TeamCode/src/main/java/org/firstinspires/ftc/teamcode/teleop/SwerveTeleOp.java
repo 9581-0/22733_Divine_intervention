@@ -45,7 +45,7 @@ public class SwerveTeleOp extends LinearOpMode {
             double botheadingX = gamepad1.right_stick_x;
             double hotheadingY = gamepad1.right_stick_y;
 
-            double rot = gamepad1.right_stick_x * rotScale;
+            double rot = -gamepad1.right_stick_x * rotScale;
 
             // 2. Drive Command 
             // We pass ALL config values here so they update live!
