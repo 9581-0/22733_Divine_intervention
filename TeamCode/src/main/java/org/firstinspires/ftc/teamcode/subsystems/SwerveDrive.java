@@ -101,6 +101,10 @@ public class SwerveDrive {
                       double Kp, double Kd, double Ki, double Kf, double Kl,
                       boolean fieldCentric, double imuPolarity, double robotRadius) {
 
+        if (odo != null) {
+            odo.update(GoBildaPinpointDriver.readData.ONLY_UPDATE_HEADING);
+        }
+
         // 0. Safety: Sanitize Inputs (Prevent NaN from crashing PIDs)
         if (Double.isNaN(forward) || Double.isNaN(strafe) || Double.isNaN(rot)) {
             forward = 0; strafe = 0; rot = 0;
@@ -138,14 +142,17 @@ public class SwerveDrive {
         }
 
         // 4. Heading Lock PID (Apply when rotation stick is released)
-        if (initialized && Math.abs(rot) < HEADING_LOCK_DEADBAND) {
+        double headingCorrection = 0;
+        boolean allowHeadingLock = initialized && needsHeading;
+        if (allowHeadingLock && Math.abs(rot) < HEADING_LOCK_DEADBAND) {
             if (!headingLockActive) {
                 headingLockTarget = heading;
                 headingLockPID.reset();
                 headingLockActive = true;
             }
+
             double headingError = AngleUnit.normalizeDegrees(headingLockTarget - heading);
-            rot = headingLockPID.pidOut(headingError);
+            headingCorrection = headingLockPID.pidOut(headingError);
         } else {
             if (headingLockActive) {
                 headingLockPID.reset();
@@ -153,6 +160,9 @@ public class SwerveDrive {
             headingLockActive = false;
             headingLockTarget = heading;
         }
+
+        rot += headingCorrection;
+        rot = Math.max(-1.0, Math.min(1.0, rot));
 
         // 5. Calculate Kinematics (Vectors)
         double[] output = kinematics.calculate(forward, -strafe, -rot, heading, fieldCentric, robotRadius);

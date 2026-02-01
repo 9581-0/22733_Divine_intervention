@@ -40,7 +40,6 @@ public class SwerveTeleOpConfig {
     // In your old code this was implicitly "1.0".
     public static double ROBOT_RADIUS = 1.0;
 
-    //Bot Heading PID coefficients public static
     public static double HEADING_LOCK_KP = 0.002;
     public static double HEADING_LOCK_KI = 0.00002;
     public static double HEADING_LOCK_KD = 0.0001;

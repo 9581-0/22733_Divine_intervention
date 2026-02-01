@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystems.SwerveDrive;
+import org.firstinspires.ftc.teamcode.util.drivers.GoBildaPinpointDriver;
 
 @TeleOp(name = "Swerve TeleOp (Final)", group = "Main")
 public class SwerveTeleOp extends LinearOpMode {
@@ -20,6 +21,12 @@ public class SwerveTeleOp extends LinearOpMode {
         
         // Init Subsystems
         SwerveDrive swerve = new SwerveDrive(telemetry, hardwareMap);
+        GoBildaPinpointDriver odo = hardwareMap.get(GoBildaPinpointDriver.class, "odo");
+        odo.setOffsets(-211, 43);
+        odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD,
+                GoBildaPinpointDriver.EncoderDirection.FORWARD);
+        swerve.updateOdo(odo);
         // Shooting Status
 
 
@@ -34,6 +41,8 @@ public class SwerveTeleOp extends LinearOpMode {
 
 
         while (opModeIsActive()) {
+
+            odo.update(GoBildaPinpointDriver.readData.ONLY_UPDATE_HEADING);
             
             // 1. Inputs
             double driveScale = SwerveTeleOpConfig.DRIVE_SPEED_SCALAR;
