@@ -124,9 +124,11 @@ public class Spindexer {
             //moveEmptySlot();
             sorted = true;
         }
+        beufbrubf = "SORTING GOT " + greenCount + "GREENS AND " + purpleCount + "PURPLES AND" + emptyCount + "EMPTIES";
 
         // Example logic: rotate to align GREEN
         if (greenCount == 1 && greenIndex != greenMotif) {
+            beufbrubf = "SORTING TRIED ITS BEST";
             double toSort = 120 * ((greenIndex - greenMotif + 3) % 3);
             target += 360 + toSort;
             targetTwo += toSort;
