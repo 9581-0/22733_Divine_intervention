@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -32,15 +34,10 @@ public class SwerveDrive {
     private double imuOffset = 180;
 
 
-    private final PIDcontroller headingLockPID = new PIDcontroller(
-            SwerveTeleOpConfig.HEADING_LOCK_KP,
-            SwerveTeleOpConfig.HEADING_LOCK_KD,
-            SwerveTeleOpConfig.HEADING_LOCK_KI,
-            SwerveTeleOpConfig.HEADING_LOCK_KF,
-            SwerveTeleOpConfig.HEADING_LOCK_KL
-    );
-
     double HEADING_LOCK_DEADBAND = SwerveTeleOpConfig.HEADING_LOCK_DEADBAND;
+    private final ElapsedTime headingTimer = new ElapsedTime();
+    private double headingIntegral = 0;
+    private double lastHeadingError = 0;
 
     // Safety Variables
     private boolean initialized = false;
@@ -101,21 +98,12 @@ public class SwerveDrive {
                       double Kp, double Kd, double Ki, double Kf, double Kl,
                       boolean fieldCentric, double imuPolarity, double robotRadius) {
 
-        // Refresh heading lock tunables live (dashboard edits take effect immediately)
-        headingLockPID.setPIDgains(
-                SwerveTeleOpConfig.HEADING_LOCK_KP,
-                SwerveTeleOpConfig.HEADING_LOCK_KD,
-                SwerveTeleOpConfig.HEADING_LOCK_KI,
-                SwerveTeleOpConfig.HEADING_LOCK_KF,
-                SwerveTeleOpConfig.HEADING_LOCK_KL
-        );
         HEADING_LOCK_DEADBAND = SwerveTeleOpConfig.HEADING_LOCK_DEADBAND;
 
         if (odo != null) {
             odo.update(GoBildaPinpointDriver.readData.ONLY_UPDATE_HEADING);
         }
 
-        // 0. Safety: Sanitize Inputs (Prevent NaN from crashing PIDs)
         if (Double.isNaN(forward) || Double.isNaN(strafe) || Double.isNaN(rot)) {
             forward = 0; strafe = 0; rot = 0;
         }
@@ -130,7 +118,6 @@ public class SwerveDrive {
         double mod2P = readEncoder(mod2E, m2Offset);
         double mod3P = readEncoder(mod3E, m3Offset);
 
-        // 3. Get Heading (With Singularity Failsafe)
         double heading = 0;
         boolean needsHeading = fieldCentric || (initialized && Math.abs(rot) < HEADING_LOCK_DEADBAND);
         if (needsHeading) {
@@ -140,7 +127,6 @@ public class SwerveDrive {
             } else {
                 double rawHeading = getHeading(imuPolarity);
 
-                // Check if IMU returned NaN (Singularity)
                 if (Double.isNaN(rawHeading)) {
                     heading = lastGoodHeading; // Use last known safe angle
                     telemetry.addData("WARNING", "IMU NAN DETECTED - USING FALLBACK");
@@ -151,21 +137,41 @@ public class SwerveDrive {
             }
         }
 
-        // 4. Heading Lock PID (Apply when rotation stick is released)
         double headingCorrection = 0;
         boolean allowHeadingLock = initialized && needsHeading;
         if (allowHeadingLock && Math.abs(rot) < HEADING_LOCK_DEADBAND) {
             if (!headingLockActive) {
                 headingLockTarget = heading;
-                headingLockPID.reset();
+                headingIntegral = 0;
+                lastHeadingError = 0;
+                headingTimer.reset();
                 headingLockActive = true;
             }
 
             double headingError = AngleUnit.normalizeDegrees(headingLockTarget - heading);
-            headingCorrection = headingLockPID.pidOut(headingError);
+            double dt = headingTimer.seconds();
+
+            headingIntegral += headingError * dt;
+            headingIntegral = com.qualcomm.robotcore.util.Range.clip(
+                    headingIntegral,
+                    -SwerveTeleOpConfig.HEADING_LOCK_KL,
+                    SwerveTeleOpConfig.HEADING_LOCK_KL
+            );
+            double derivative = (headingError - lastHeadingError) / dt;
+
+            headingCorrection =
+                    SwerveTeleOpConfig.HEADING_LOCK_KP * headingError +
+                            SwerveTeleOpConfig.HEADING_LOCK_KI * headingIntegral +
+                            SwerveTeleOpConfig.HEADING_LOCK_KD * derivative +
+                            SwerveTeleOpConfig.HEADING_LOCK_KF * Math.signum(headingError);
+
+            lastHeadingError = headingError;
+            headingTimer.reset();
         } else {
             if (headingLockActive) {
-                headingLockPID.reset();
+                headingIntegral = 0;
+                lastHeadingError = 0;
+                headingTimer.reset();
             }
             headingLockActive = false;
         }
