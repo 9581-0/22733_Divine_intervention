@@ -41,10 +41,10 @@ public class SwerveTeleOpConfig {
     public static double ROBOT_RADIUS = 1.0;
 
     public static double HEADING_LOCK_KP = 0.002;
-    public static double HEADING_LOCK_KI = 0.00002;
-    public static double HEADING_LOCK_KD = 0.0001;
-    public static  double HEADING_LOCK_KF = 0.00005;
-    public static  double HEADING_LOCK_KL = 0.1;
+    public static double HEADING_LOCK_KI = 0.00000;
+    public static double HEADING_LOCK_KD = 0.0000;
+    public static  double HEADING_LOCK_KF = 0.00000;
+    public static  double HEADING_LOCK_KL = 0.0;
     public static double HEADING_LOCK_DEADBAND = 0.2;
-
+    public static double P = 0.0008;
 }

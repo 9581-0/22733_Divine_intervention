@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.CRServo;
 
+import org.firstinspires.ftc.teamcode.teleop.SwerveTeleOpConfig;
 import org.firstinspires.ftc.teamcode.util.PIDF;
 import org.firstinspires.ftc.teamcode.utility.CrServoCaching;
 import org.firstinspires.ftc.teamcode.util.wrappers.Sensorange;
@@ -37,8 +38,8 @@ public class Spindexer {
 
     /* ================= PID ================= */
 
-    public static double P = 0.0015;
-    public static double D = 0.0005;
+    public static double P = SwerveTeleOpConfig.P;
+    public static double D = 0.00005;
 
     private final PIDF pid = new PIDF(P, D);
     private double target = -44;
@@ -203,8 +204,8 @@ public class Spindexer {
 
     public void shoot() {
         sorted = false;
-        target -= 360;
-        targetTwo -= 360;
+        target -= 600;
+        targetTwo -= 600;
     }
 
     public void enableSort() {
