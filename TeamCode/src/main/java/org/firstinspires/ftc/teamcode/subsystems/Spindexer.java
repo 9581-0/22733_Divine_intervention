@@ -122,7 +122,7 @@ public class Spindexer {
 
         if (total < 3 && (greenCount > 0 || purpleCount > 0)) {
             //moveEmptySlot();
-            sorted = true;
+            //sorted = true;
         }
         beufbrubf = "SORTING GOT " + greenCount + "GREENS AND " + purpleCount + "PURPLES AND" + emptyCount + "EMPTIES WITH GREEN AT" + greenIndex;
 
