@@ -33,16 +33,16 @@ public class SwerveDrive {
     private double imuOffset = 180;
 
 
-    double HEADING_LOCK_DEADBAND = SwerveTeleOpConfig.HEADING_LOCK_DEADBAND;
-    private final ElapsedTime headingTimer = new ElapsedTime();
-    private double headingIntegral = 0;
+    // Heading correction (ported closely to user's previous implementation)
+    private final ElapsedTime headingDt = new ElapsedTime();
+    private final ElapsedTime headingReset = new ElapsedTime();
+    private double headingTarget = 0;
     private double lastHeadingError = 0;
+    double HEADING_LOCK_DEADBAND = SwerveTeleOpConfig.HEADING_LOCK_DEADBAND;
 
     // Safety Variables
     private boolean initialized = false;
     private double lastGoodHeading = 180; // Failsafe for IMU singularity
-    private double headingLockTarget = 0;
-    private boolean headingLockActive = false;
 
 
     public SwerveDrive(Telemetry telemetry, HardwareMap hardwareMap) {
@@ -136,48 +136,31 @@ public class SwerveDrive {
             }
         }
 
+        // === Heading correction (minimal port from user's prior teleop) ===
         double headingCorrection = 0;
-        boolean allowHeadingLock = initialized && needsHeading;
-        if (allowHeadingLock && Math.abs(rot) < HEADING_LOCK_DEADBAND) {
-            if (!headingLockActive) {
-                headingLockTarget = heading;
-                headingIntegral = 0;
+        if (needsHeading && odo != null) {
+            // Reset target shortly after driver commands rotation (200ms grace)
+            if (Math.abs(rot) > 0.05) {
+                headingReset.reset();
+            }
+            if (headingReset.milliseconds() < 200) {
+                headingTarget = heading;
                 lastHeadingError = 0;
-                headingTimer.reset();
-                headingLockActive = true;
+            } else {
+                double headingError = AngleUnit.normalizeDegrees(headingTarget - heading);
+                double dt = headingDt.seconds();
+                if (dt <= 0) dt = 1e-3;
+
+                headingCorrection = SwerveTeleOpConfig.HEADING_LOCK_KP * headingError +
+                        SwerveTeleOpConfig.HEADING_LOCK_KD * (headingError - lastHeadingError) / dt;
+
+                lastHeadingError = headingError;
             }
-
-            double headingError = AngleUnit.normalizeDegrees(headingLockTarget - heading);
-            double dt = headingTimer.seconds();
-            if (dt <= 0) {
-                dt = 1e-3;
-            }
-
-            headingIntegral += headingError * dt;
-            headingIntegral = com.qualcomm.robotcore.util.Range.clip(
-                    headingIntegral,
-                    -SwerveTeleOpConfig.HEADING_LOCK_KL,
-                    SwerveTeleOpConfig.HEADING_LOCK_KL
-            );
-            double derivative = (headingError - lastHeadingError) / dt;
-
-            headingCorrection =
-                    SwerveTeleOpConfig.HEADING_LOCK_KP * headingError +
-                            SwerveTeleOpConfig.HEADING_LOCK_KI * headingIntegral +
-                            SwerveTeleOpConfig.HEADING_LOCK_KD * derivative +
-                            SwerveTeleOpConfig.HEADING_LOCK_KF * Math.signum(headingError);
-
-            lastHeadingError = headingError;
-            headingTimer.reset();
-        } else {
-            if (headingLockActive) {
-                headingIntegral = 0;
-                lastHeadingError = 0;
-                headingTimer.reset();
-            }
-            headingLockActive = false;
-            headingLockTarget = heading;
+            headingDt.reset();
         }
+
+        rot += headingCorrection;
+        rot = Math.max(-1.0, Math.min(1.0, rot));
 
         rot += headingCorrection;
         rot = Math.max(-1.0, Math.min(1.0, rot));
@@ -252,10 +235,10 @@ public class SwerveDrive {
             imuOffset = Math.toDegrees(odo.getHeading(AngleUnit.RADIANS));
         }
         // Reset heading-lock state so we don't chase a stale target after recalibration
-        headingLockTarget = 0;
-        headingIntegral = 0;
+        headingTarget = 0;
         lastHeadingError = 0;
-        headingTimer.reset();
+        headingDt.reset();
+        headingReset.reset();
         lastGoodHeading = 0;
         initialized = false; // re-arm lock on next driver input
     }
