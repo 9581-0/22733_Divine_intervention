@@ -120,7 +120,7 @@ public class Spindexer {
         int total = greenCount + purpleCount;
         sorted = (total == 3);
 
-        if (total < 3 && emptyIndex != -1) {
+        if (total < 3 && (greenCount > 0 || purpleCount > 0)) {
             //moveEmptySlot();
             sorted = true;
         }
@@ -140,6 +140,7 @@ public class Spindexer {
     /* ================= SENSOR SCAN ================= */
 
     private void scanDexer() {
+        if (sorted) return;
         long now = System.currentTimeMillis();
         if (now - lastScanTime < SCAN_INTERVAL_MS) return;
         lastScanTime = now;
