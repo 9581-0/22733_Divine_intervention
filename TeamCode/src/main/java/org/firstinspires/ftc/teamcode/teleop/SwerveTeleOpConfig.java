@@ -44,9 +44,9 @@ public class SwerveTeleOpConfig {
     // Example: if facing driver and translation is mirrored, try +90 or -90.
     public static double HEADING_FRAME_OFFSET_DEG = 0.0;
 
-    public static double HEADING_LOCK_KP = 0.0003;
+    public static double HEADING_LOCK_KP = 0.017;
     public static double HEADING_LOCK_KI = 0.00000;
-    public static double HEADING_LOCK_KD = 0.0000;
+    public static double HEADING_LOCK_KD = 0.0001;
     public static  double HEADING_LOCK_KF = 0.00000;
     public static  double HEADING_LOCK_KL = 0.0;
     public static double HEADING_LOCK_DEADBAND = 0.2;
