@@ -40,6 +40,9 @@ public class SwerveTeleOpConfig {
     // In your old code this was implicitly "1.0".
     public static double ROBOT_RADIUS = 1.0;
 
+    // Example: if facing driver and translation is mirrored, try +90 or -90.
+    public static double HEADING_FRAME_OFFSET_DEG = 0.0;
+
     public static double HEADING_LOCK_KP = 0.0003;
     public static double HEADING_LOCK_KI = 0.00000;
     public static double HEADING_LOCK_KD = 0.0000;

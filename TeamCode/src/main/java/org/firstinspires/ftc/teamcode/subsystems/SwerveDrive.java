@@ -38,6 +38,7 @@ public class SwerveDrive {
     private final ElapsedTime headingReset = new ElapsedTime();
     private double headingTarget = 0;
     private double lastHeadingError = 0;
+    private boolean headingTargetSet = false;
     double HEADING_LOCK_DEADBAND = SwerveTeleOpConfig.HEADING_LOCK_DEADBAND;
 
     // Safety Variables
@@ -138,6 +139,13 @@ public class SwerveDrive {
 
         double headingCorrection = 0;
         if (needsHeading && odo != null) {
+            // First-time capture after init/reset so we don't drive toward 0 by default
+            if (!headingTargetSet) {
+                headingTarget = heading;
+                headingTargetSet = true;
+                headingReset.reset();
+                headingDt.reset();
+            }
             if (Math.abs(rot) > 0.05) {
                 headingReset.reset();
             }
@@ -156,9 +164,6 @@ public class SwerveDrive {
             }
             headingDt.reset();
         }
-
-        rot += headingCorrection;
-        rot = Math.max(-1.0, Math.min(1.0, rot));
 
         rot += headingCorrection;
         rot = Math.max(-1.0, Math.min(1.0, rot));
@@ -225,7 +230,7 @@ public class SwerveDrive {
 
     private double getHeading(double polarity) {
         double headingDeg = Math.toDegrees(odo.getHeading(AngleUnit.RADIANS));
-        return AngleUnit.normalizeDegrees(headingDeg * polarity - imuOffset);
+        return AngleUnit.normalizeDegrees(headingDeg * polarity - imuOffset - SwerveTeleOpConfig.HEADING_FRAME_OFFSET_DEG);
     }
 
     public void resetIMU() {
@@ -236,6 +241,7 @@ public class SwerveDrive {
         lastHeadingError = 0;
         headingDt.reset();
         headingReset.reset();
+        headingTargetSet = false;
         lastGoodHeading = 0;
         initialized = false; // re-arm lock on next driver input
     }
