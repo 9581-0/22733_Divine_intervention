@@ -39,7 +39,7 @@ public class Spindexer {
     /* ================= PID ================= */
 
     public static double P = SwerveTeleOpConfig.P;
-    public static double D = 0.00005;
+    public static double D = 0.00007;
 
     private final PIDF pid = new PIDF(P, D);
     private double target = 165;
@@ -130,7 +130,7 @@ public class Spindexer {
         if (sorted && greenCount == 1 && greenIndex == greenMotif) {target = targetTwo;}
         if (sorted && greenCount == 1 && greenIndex != greenMotif) {
             double toSort = 120 * ((greenIndex - greenMotif + 3) % 3);
-            target += 80 + toSort;
+            target += 70 + toSort;
             targetTwo += toSort;
             beufbrubf = "SORTING TRIED ITS BEST " + toSort;
         }
@@ -178,13 +178,15 @@ public class Spindexer {
 
     private boolean runPID() {
         pid.setSetPoint(target);
-        if (pid.atSetPoint()) {
-            setPower(0);
-            return true;
-        }
+        double potato = pid.calculate(encoder.getPosition());
+        setPower(potato);
+        return potato < 0.05;
+        // if (potato < 0.05) {
+        //     return true;
+        // }
 
-        setPower(pid.calculate(encoder.getPosition()));
-        return false;
+        // setPower(potato);
+        // return false;
     }
 
     /* ================= ACTUATION ================= */
@@ -208,7 +210,7 @@ public class Spindexer {
 
     public void shoot() {
         sorted = false;
-        target -= sortEnabled ? 80 : 720;
+        target -= sortEnabled ? 70 : 720;
         targetTwo -= 720;
     }
 
