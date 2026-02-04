@@ -129,7 +129,7 @@ public class Spindexer {
         // Example logic: rotate to align GREEN
         if (greenCount == 1 && greenIndex != greenMotif) {
             double toSort = 120 * ((greenIndex - greenMotif + 3) % 3);
-            target += 720 + toSort;
+            target += 50 + toSort;
             targetTwo += toSort;
             beufbrubf = "SORTING TRIED ITS BEST " + toSort;
         }
@@ -207,7 +207,7 @@ public class Spindexer {
 
     public void shoot() {
         sorted = false;
-        target -= 720;
+        target -= sortEnabled ? 50 : 720;
         targetTwo -= 720;
     }
 
