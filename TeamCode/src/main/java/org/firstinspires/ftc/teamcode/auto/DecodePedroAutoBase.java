@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.subsystems.Robot;
 
-public abstract class DecodePedroAutoBase extends LinearOpMode {
+public abstract class  DecodePedroAutoBase extends LinearOpMode {
     private static final double SHOOT_DURATION_SEC = 2.0;
 
     protected abstract DecodePedroAutoPlan.Alliance getAlliance();

@@ -3,16 +3,16 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.util.Pose2d;
 import org.firstinspires.ftc.teamcode.util.PIDF;
 import org.firstinspires.ftc.teamcode.util.drivers.GoBildaPinpointDriver;
 
 public class Turret {
     public static final double GEAR_RATIO = 80/30*37/112, SERVO_TO_ANGLE = 300;
-    public double GOAL_X, GOAL_Y;
+    public static double GOAL_X = 0.0, GOAL_Y = 0.0;
 
     private final Servo LServo, RServo;
-    private GoBildaPinpointDriver odo;
 
     public double target;
     private boolean tracking = false;
@@ -22,28 +22,22 @@ public class Turret {
         RServo = map.get(Servo.class, "TurretServoR");
     }
 
-    // public void update(){
-    //     if (tracking) {
-    //         Pose2D pose = odo.getPosition();
+     public void update(Pose2d currentPosition){
+         if (tracking) {
+             double currentX = currentPosition.getX();
+             double currentY = currentPosition.getY();
+             double currentH = currentPosition.getHeading(); // assumed 0 is facing goal side
 
-    //         double currentX = pose.getX();
-    //         double currentY = pose.getY();
-    //         double currentH = pose.getHeading(); // assumed 0 is facing goal side
+             double angleToGoal = Math.atan2(GOAL_Y - currentY, GOAL_X - currentX);
 
-    //         double angleToGoal = Math.atan2(GOAL_Y - currentY, GOAL_X - currentX);
+             setPos((angleToGoal - currentH) / SERVO_TO_ANGLE + 0.5);
+         }
+     }
 
-    //         setPos((angleToGoal - currentH) / SERVO_TO_ANGLE + 0.5);
-    //     }
-    // }
-
-    // public void setOdo(GoBildaPinpointDriver odometry) {
-    //     odo = odometry;
-    // }
-
-    // public void setGoalPositions(double x, double y){
-    //     GOAL_X = x;
-    //     GOAL_Y = y;
-    // }
+     public void setGoalPositions(double x, double y){
+         GOAL_X = x;
+         GOAL_Y = y;
+     }
 
     private void setPos(double pos){
         LServo.setPosition(pos);
@@ -71,6 +65,6 @@ public class Turret {
         return Math.abs(LServo.getPosition() - target) < 0.02;
     }
 
-    // public void startTracking(){tracking = true;}
-    // public void stopTracking(){tracking = false;}
+    public void startTracking(){tracking = true;}
+    public void stopTracking(){tracking = false;}
 }

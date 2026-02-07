@@ -2,11 +2,13 @@ package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.teamcode.subsystems.Turret;
 import org.firstinspires.ftc.teamcode.util.Pose2d;
 
 import org.firstinspires.ftc.teamcode.subsystems.Robot;
 
-@TeleOp(name="A Shrimp made this teleop", group="Human Teleop")
+@TeleOp(name="TeleOP", group="Human Teleop")
 public class MechTeleOp extends LinearOpMode{
     long lastLoopTime = 0;
     Robot robot;
@@ -25,6 +27,10 @@ public class MechTeleOp extends LinearOpMode{
         robot.init();
         robot.updateGoal(goal);
         robot.updateTelemetry(telemetry);
+
+        if(Turret.GOAL_Y == 0.0) {
+            Turret.GOAL_Y = 144.0;
+        }
 
         waitForStart();
 

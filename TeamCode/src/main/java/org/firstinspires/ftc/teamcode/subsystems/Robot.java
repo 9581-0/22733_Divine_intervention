@@ -21,6 +21,7 @@ public class Robot {
     private final Spindexer spindex;
     private final Intake intake;
     private final SwerveDrive swerve;
+    private final Turret turret;
     private final GoBildaPinpointDriver odo;
 
     //State variables
@@ -40,6 +41,7 @@ public class Robot {
         spindex = new Spindexer(map);
         intake = new Intake(map);
         swerve = new SwerveDrive(telemetry, map);
+        turret = new Turret(map);
 
         odo = map.get(GoBildaPinpointDriver.class, "odo");
         odo.setOffsets(-211, 43);
@@ -136,14 +138,15 @@ public class Robot {
     }
 
     public void update(){
+        pose = odo.getPosition();
+
         state.run();
 
         shooter.update();
+        turret.update(pose);
         spindex.update();
         intake.update();
         odo.update();
-
-        pose = odo.getPosition();
 
         PhotonCore.CONTROL_HUB.clearBulkCache();
         PhotonCore.EXPANSION_HUB.clearBulkCache();
