@@ -39,10 +39,11 @@ public class Spindexer {
 
     /* ================= PID ================= */
 
-    public static double P = SwerveTeleOpConfig.P;
+    public static double P = 0.001;
+    
     public static double D = 0.00007;
 
-    public static double P2 = 0.001;
+    public static double P2 = 0.5;
 
     public static double D2 = 0.00000001;
 
