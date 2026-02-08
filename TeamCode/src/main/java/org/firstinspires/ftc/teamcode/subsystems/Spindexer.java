@@ -183,7 +183,7 @@ public class Spindexer {
 
     private boolean runPID() {
         pid.setSetPoint(target);
-        if(Math.abs(encoder.getPosition()) < Math.abs(pid.getSetPoint()) + 4) {
+        if(Math.abs(encoder.getPosition()) > Math.abs(pid.getSetPoint()) + 4) {
             double potato = pid.calculate(encoder.getPosition());
             setPower(potato);
             return sorted && Math.abs(potato) < 0.05 || pid.atSetPoint();
