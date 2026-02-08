@@ -41,9 +41,9 @@ public class Spindexer {
     public static double P = SwerveTeleOpConfig.P;
     public static double D = 0.00007;
 
-    public static double P2 = 0.0001;
+    public static double P2 = 0.1;
 
-    public static double D2 = 0.000006;
+    public static double D2 = 0.00000001;
 
     private final PIDF pid = new PIDF(P, D);
     private final PIDF pid2 = new PIDF(P,D);

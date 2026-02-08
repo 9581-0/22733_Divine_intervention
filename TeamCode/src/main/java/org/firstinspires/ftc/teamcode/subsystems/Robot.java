@@ -60,7 +60,8 @@ public class Robot {
 
         PhotonCore.CONTROL_HUB.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
         PhotonCore.EXPANSION_HUB.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
-        PhotonCore.experimental.setMaximumParallelCommands(8);
+        PhotonCore.experimental.setMaximumParallelCommands(6);
+        PhotonCore.experimental.setSinglethreadedOptimized(false);
         PhotonCore.enable();
 
         State[] states = createStates();
