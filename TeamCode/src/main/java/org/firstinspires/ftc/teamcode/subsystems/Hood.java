@@ -17,7 +17,7 @@ public class Hood {
     private static final double SERVO_TO_ANGLE = 10;
  
     public Hood (HardwareMap map) {
-        servo = (ServoCaching.CachingServo) map.get(Servo.class, "hood");
+        servo = new ServoCaching.CachingServo(map.get(Servo.class, "hood"));
     }
 
     public void setPosition(double target){

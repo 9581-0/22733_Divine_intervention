@@ -29,10 +29,10 @@ public class Vision_Camera {
     public Vision_Camera(HardwareMap hardwareMap) {
 
 
-        ServoL = (CrServoCaching) hardwareMap.get(CRServo.class, "ServoL");
+        ServoL = new CrServoCaching(hardwareMap.get(CRServo.class, "ServoL"));
         ServoL.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        ServoR = (CrServoCaching) hardwareMap.get(CRServo.class, "ServoR");
+        ServoR = new CrServoCaching(hardwareMap.get(CRServo.class, "ServoR"));
         ServoR.setDirection(DcMotorSimple.Direction.FORWARD);
 
         aprilTag = AprilTagProcessor.easyCreateWithDefaults();

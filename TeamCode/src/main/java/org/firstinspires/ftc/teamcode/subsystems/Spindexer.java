@@ -41,7 +41,12 @@ public class Spindexer {
     public static double P = SwerveTeleOpConfig.P;
     public static double D = 0.00007;
 
+    public static double P2 = 0.0001;
+
+    public static double D2 = 0.000006;
+
     private final PIDF pid = new PIDF(P, D);
+    private final PIDF pid2 = new PIDF(P,D);
     private double target = 165;
     private double targetTwo = 165;
     private final double maxServoSpeed = 0.3;
@@ -61,8 +66,8 @@ public class Spindexer {
 
     public Spindexer(HardwareMap map) {
 
-        leftServo  = (CrServoCaching) map.get(CRServo.class, "IndexServoL");
-        rightServo = (CrServoCaching) map.get(CRServo.class, "IndexServoR");
+        leftServo  = new CrServoCaching(map.get(CRServo.class, "IndexServoL"));
+        rightServo = new CrServoCaching(map.get(CRServo.class, "IndexServoR"));
 
         encoder = new Sensorange("encoder", map);
 
@@ -178,9 +183,16 @@ public class Spindexer {
 
     private boolean runPID() {
         pid.setSetPoint(target);
-        double potato = pid.calculate(encoder.getPosition());
-        setPower(potato);
-        return sorted && Math.abs(potato) < 0.05 || pid.atSetPoint();
+        if(Math.abs(encoder.getPosition()) < Math.abs(pid.getSetPoint()) + 4) {
+            double potato = pid.calculate(encoder.getPosition());
+            setPower(potato);
+            return sorted && Math.abs(potato) < 0.05 || pid.atSetPoint();
+        }
+        else  {
+            double potato2 = pid2.calculate(encoder.getPosition());
+            setPower(potato2);
+            return sorted && Math.abs(potato2) < 0.03 || pid.atSetPoint();
+        }
         // if (potato < 0.05) {
         //     return true;
         // }

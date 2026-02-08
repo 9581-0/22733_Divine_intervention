@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoController;
 
 public class ServoCaching {
-    public class CachingServo implements Servo {
+    public static class CachingServo implements Servo {
         protected final Servo servo;
         protected double cachingTolerance = 0.001;
         private double cachedPosition = Double.NaN;
