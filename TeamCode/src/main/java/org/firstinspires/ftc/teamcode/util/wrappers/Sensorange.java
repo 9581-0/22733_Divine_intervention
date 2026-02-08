@@ -13,6 +13,8 @@ public class Sensorange{
     private double lastCheckedPosition = 0, fullRotations = 0;
     private double currentAbsoluteAngle = 0;
 
+    private double offset = 165-95.22;
+
 
     public Sensorange (String name, HardwareMap map) {
         encoder = map.get(AnalogInput.class, name);
@@ -48,6 +50,6 @@ public class Sensorange{
     }
 
     public double getPosition() {
-        return currentAbsoluteAngle;
+        return currentAbsoluteAngle + offset;
     }
 }
