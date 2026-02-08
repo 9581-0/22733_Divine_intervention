@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -8,7 +9,7 @@ import org.firstinspires.ftc.teamcode.teleop.SwerveTeleOpConfig;
 import org.firstinspires.ftc.teamcode.util.PIDF;
 import org.firstinspires.ftc.teamcode.utility.CrServoCaching;
 import org.firstinspires.ftc.teamcode.util.wrappers.Sensorange;
-
+@Config
 public class Spindexer {
 
     /* ================= ENUMS ================= */
