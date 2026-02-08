@@ -47,6 +47,8 @@ public class Spindexer {
 
     private final PIDF pid = new PIDF(P, D);
     private final PIDF pid2 = new PIDF(P,D);
+
+    public static double minPower = 0.03;
     private double target = 165;
     private double targetTwo = 165;
     private final double maxServoSpeed = 0.3;
@@ -183,7 +185,6 @@ public class Spindexer {
 
     private boolean runPID() {
         pid.setSetPoint(target);   // main PID (coarse)
-        pid2.setSetPoint(target);  // secondary PIDF (fine)
 
         double position = encoder.getPosition();
         double error = target - position;
@@ -197,10 +198,15 @@ public class Spindexer {
             return false;
         }
         else {
-            output = pid2.calculate(position);
-            setPower(output);
+            if(Math.abs(error) > 1.0) {
+                if (error < 0.0) {
+                    setPower(-minPower);
+                } else {
+                    setPower(minPower);
+                }
+            }
 
-            return (sorted && Math.abs(output) < 0.03) || pid2.atSetPoint();
+            return sorted;
         }
     }
 
