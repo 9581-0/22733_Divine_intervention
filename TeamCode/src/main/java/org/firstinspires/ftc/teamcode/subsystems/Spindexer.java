@@ -51,8 +51,8 @@ public class Spindexer {
     private final PIDF pid2 = new PIDF(P,D);
 
     public static double minPower = 0.03;
-    private double target = 165;
-    private double targetTwo = 165;
+    private double target = 165+45;
+    private double targetTwo = 165+45;
     private final double maxServoSpeed = 0.3;
     private String beufbrubf = "YOU KILLED A CAT";
 
