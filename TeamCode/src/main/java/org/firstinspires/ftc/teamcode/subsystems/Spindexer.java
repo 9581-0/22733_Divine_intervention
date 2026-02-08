@@ -75,8 +75,8 @@ public class Spindexer {
         colorB = map.get(ColorSensor.class, "color2");
         colorC = map.get(ColorSensor.class, "color3");
 
-        pid.setTolerance(5);
-        pid.setSetPoint(-44);
+        pid.setTolerance(2);
+        pid.setSetPoint(165);
 
         for (int i = 0; i < 3; i++) {
             stored[i] = Pixel.EMPTY;
@@ -190,7 +190,7 @@ public class Spindexer {
 
         double output;
 
-        if (Math.abs(error) > 4.0) {
+        if (Math.abs(error) > 2.0) {
             output = pid.calculate(position);
             setPower(output);
 
