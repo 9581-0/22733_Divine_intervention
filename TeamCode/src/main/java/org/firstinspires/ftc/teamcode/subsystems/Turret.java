@@ -35,6 +35,10 @@ public class Turret {
          }
      }
 
+     public void sotm() {
+
+     }
+
      public void setGoalPositions(double x, double y){
          GOAL_X = x;
          GOAL_Y = y;

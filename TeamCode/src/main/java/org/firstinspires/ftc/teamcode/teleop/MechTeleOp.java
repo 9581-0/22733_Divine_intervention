@@ -71,7 +71,7 @@ public class MechTeleOp extends LinearOpMode{
             }
 
             if(gamepad1.leftStickButtonWasPressed()) {
-                Turret.tracking = false;
+                Turret.tracking = !Turret.tracking;
             }
 
             if(gamepad1.startWasPressed()) {
