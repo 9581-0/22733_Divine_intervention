@@ -79,7 +79,7 @@ public class MechTeleOp extends LinearOpMode{
             }
             robot.shooter.setHood(hoodpos);
 
-
+telemetry.addData("hoodpos", hoodpos);
 
             robot.update();
             long currentTime = System.currentTimeMillis();
