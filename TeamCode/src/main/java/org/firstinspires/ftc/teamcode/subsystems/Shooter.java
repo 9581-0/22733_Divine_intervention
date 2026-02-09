@@ -51,8 +51,6 @@ public class Shooter {
  
                     double tAngle = Math.toDegrees(Math.atan2(dy, dx));
                     double offset = tAngle - Math.toDegrees(pose.getHeading());
- 
-                    turret.setAngle(offset + turret.SERVO_TO_ANGLE / 2);
 
                     flywheel.setVelocity(5000);
                     hood.setPosition(getHoodFromFlywheel(flywheel.getCurrentVel()));
@@ -67,7 +65,6 @@ public class Shooter {
         state.start();
         flywheel.setVelocity(IDLE_VEL);
         hood.setPosition(IDLE_HOOD);
-        turret.setAngle(turret.getAngle());
     }
 
     public void setHood(double hoodpos){
