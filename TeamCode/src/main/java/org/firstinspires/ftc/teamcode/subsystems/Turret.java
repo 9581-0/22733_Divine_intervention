@@ -27,7 +27,7 @@ public class Turret {
          if (tracking) {
              double currentX = currentPosition.getX();
              double currentY = currentPosition.getY();
-             double currentH = currentPosition.getHeading(); // assumed 0 is facing goal side
+             double currentH = currentPosition.getHeading();
 
              double angleToGoal = Math.atan2(GOAL_X - currentX, GOAL_Y - currentY);
 

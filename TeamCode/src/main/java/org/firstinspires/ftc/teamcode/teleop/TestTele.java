@@ -29,7 +29,7 @@ public class TestTele extends LinearOpMode{
 
         robot.init();
         robot.setPose(new Pose2d(72.0, 72.0, Math.PI));
-        robot.updateGoal(goal);
+
         robot.updateTelemetry(telemetry);
 
         waitForStart();
@@ -92,6 +92,7 @@ public class TestTele extends LinearOpMode{
             if (true) {// telemetry.addData("Status", robot.toString());
             telemetry.addData("tracking", Turret.tracking);
             telemetry.addData("robot pinpoint pose", robot.odo.getPosition());
+            telemetry.addData("Angle without heading",         Math.atan2(Turret.GOAL_X - robot.odo.getPosition().x, Turret.GOAL_Y - robot.odo.getPosition().y););
             }
             telemetry.update();
         }
