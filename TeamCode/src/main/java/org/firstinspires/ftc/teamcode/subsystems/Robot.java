@@ -182,6 +182,7 @@ public boolean driveToPosition(Pose2d pos){
 
     public void setPose(Pose2d newPose) {
         pose = odo.setPosition(newPose);
+        swerve.resetIMU();
         shooter.updatePose(pose);
     }
 
