@@ -22,6 +22,7 @@ public class Turret {
         RServo = map.get(Servo.class, "TurretServoR");
     }
 
+
      public void update(Pose2d currentPosition){
          if (tracking) {
              double currentX = currentPosition.getX();

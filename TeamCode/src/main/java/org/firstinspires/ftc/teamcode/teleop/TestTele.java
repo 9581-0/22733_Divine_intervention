@@ -89,7 +89,9 @@ public class TestTele extends LinearOpMode{
             telemetry.addData("Frequency (Hz)", 1000.0 / loopTime);
 
 
-            if (telemetryOn) {telemetry.addData("Status", robot.toString());}
+            if (true) {telemetry.addData("Status", robot.toString());
+            telemetry.addData("tracking", Turret.tracking);
+            }
             telemetry.update();
         }
     }
