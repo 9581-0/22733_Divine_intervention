@@ -29,7 +29,7 @@ public class Turret {
              double currentY = currentPosition.getY();
              double currentH = currentPosition.getHeading();
 
-             double angleToGoal = Math.atan2(GOAL_X - currentX, GOAL_Y - currentY) + Math.PI/2;
+             double angleToGoal = Math.atan2(GOAL_X - currentX, GOAL_Y - currentY);
 
              setPos(clamp((angleToGoal - currentH) / ( GEAR_RATIO) + 0.5, 1));
          }
