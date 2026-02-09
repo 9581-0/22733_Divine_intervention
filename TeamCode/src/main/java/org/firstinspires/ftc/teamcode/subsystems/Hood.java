@@ -12,7 +12,7 @@ public class Hood {
     private boolean needsUpdate = false;
     private double pos = 0;
 
-    private static final double SERVOMIN = 0, SERVOMAX = 0.5;
+    private static final double SERVOMIN = 0, SERVOMAX = 1;
     private static final double ANGLEMIN = 30, ANGLEMAX = 60;
     private static final double SERVO_TO_ANGLE = 10;
  
@@ -22,7 +22,7 @@ public class Hood {
 
     public void setPosition(double target){
         pos = Utils.minMaxClip(target, SERVOMIN, SERVOMAX);
-        // servo.setPosition(pos);
+        servo.setPosition(pos);
     }
  
     public void setAngle(double target) {
