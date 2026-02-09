@@ -59,6 +59,12 @@ public class MechTeleOp extends LinearOpMode{
                 robot.requestIdle();
             }
 
+            if (gamepad1.start) {
+                robot.resetIMU();
+                gamepad1.rumble(500);
+            }
+
+
             if (gamepad1.a) {
                 robot.iamsacrificingmyfutureforthis();
             } else if (gamepad1.x) {

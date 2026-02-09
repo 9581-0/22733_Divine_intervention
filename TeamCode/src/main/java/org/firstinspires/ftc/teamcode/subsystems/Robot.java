@@ -158,7 +158,13 @@ public class Robot {
         swerve.driveWithConfig(strafe, forward, rot);
     }
 
-    public boolean driveToPosition(Pose2d pos){
+    public void resetIMU(){
+        swerve.resetIMU();
+    }
+
+
+
+public boolean driveToPosition(Pose2d pos){
         drive(
             tpid.calculate(pose.x, pos.x), 
             tpid.calculate(pose.y, pos.y), 
