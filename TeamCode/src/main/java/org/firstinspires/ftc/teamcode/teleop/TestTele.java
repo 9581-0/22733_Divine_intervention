@@ -8,8 +8,8 @@ import org.firstinspires.ftc.teamcode.util.Pose2d;
 
 import org.firstinspires.ftc.teamcode.subsystems.Robot;
 
-@TeleOp(name="TeleOP", group="Human Teleop")
-public class MechTeleOp extends LinearOpMode{
+@TeleOp(name="TEST", group="Human Teleop")
+public class TestTele extends LinearOpMode{
     long lastLoopTime = 0;
     Robot robot;
     Pose2d goal = new Pose2d(0, 0);
@@ -23,6 +23,9 @@ public class MechTeleOp extends LinearOpMode{
     @Override
     public void runOpMode(){
         robot = new Robot(hardwareMap);
+
+        Turret.GOAL_Y = 72.0;
+        Turret.GOAL_X = -72.0;
 
         robot.init();
         robot.setPose(Robot.pose);
@@ -75,14 +78,7 @@ public class MechTeleOp extends LinearOpMode{
             }
 
             if(gamepad1.startWasPressed()) {
-                switch(Robot.alliance) {
-                    case RED: {
-                        robot.setPose(new Pose2d(72.0, -72.0, Math.PI));
-                    }
-                    case BLUE: {
-                        robot.setPose(new Pose2d(72.0, 72.0, Math.PI));
-                    }
-                }
+                robot.setPose(new Pose2d(72.0, 72.0, Math.PI));
             }
 
             robot.update();

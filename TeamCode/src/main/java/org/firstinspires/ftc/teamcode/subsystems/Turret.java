@@ -15,7 +15,7 @@ public class Turret {
     private final Servo LServo, RServo;
 
     public double target;
-    private boolean tracking = false;
+    public static boolean tracking = false;
 
     public Turret (HardwareMap map) {
         LServo = map.get(Servo.class, "TurretServoL");
@@ -28,7 +28,7 @@ public class Turret {
              double currentY = currentPosition.getY();
              double currentH = currentPosition.getHeading(); // assumed 0 is facing goal side
 
-             double angleToGoal = Math.atan2(GOAL_Y - currentY, GOAL_X - currentX);
+             double angleToGoal = Math.atan2(GOAL_X - currentX, GOAL_Y - currentY);
 
              setPos((angleToGoal - currentH) / SERVO_TO_ANGLE + 0.5);
          }
