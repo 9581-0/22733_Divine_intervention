@@ -70,9 +70,6 @@ public class Turret {
         return Math.abs(LServo.getPosition() - target) < 0.02;
     }
 
-    public void startTracking(){tracking = true;}
-    public void stopTracking(){tracking = false;}
-
     public void setHalf() {
         tracking = false;
         setPos(0.5);

@@ -91,6 +91,7 @@ public class TestTele extends LinearOpMode{
 
             if (true) {// telemetry.addData("Status", robot.toString());
             telemetry.addData("tracking", Turret.tracking);
+            telemetry.addData("robot pinpoint pose", robot.odo.getPosition());
             }
             telemetry.update();
         }

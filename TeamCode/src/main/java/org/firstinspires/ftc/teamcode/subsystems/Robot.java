@@ -23,7 +23,7 @@ public class Robot {
     private final Intake intake;
     private final SwerveDrive swerve;
     private final Turret turret;
-    private final GoBildaPinpointDriver odo;
+    public final GoBildaPinpointDriver odo;
 
     //State variables
     private boolean requestIntake = false, requestOuttake = false, requestShot = false, requestSort = false, requestIdle = false;
