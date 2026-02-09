@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.hardware.lynx.LynxModule;
 import java.util.List;
 
+import org.firstinspires.ftc.teamcode.util.Alliance;
 import org.firstinspires.ftc.teamcode.util.statemachine.State;
 import org.firstinspires.ftc.teamcode.util.statemachine.StateMachine;
 import org.firstinspires.ftc.teamcode.util.Pose2d;
@@ -35,6 +36,8 @@ public class Robot {
     private final PIDF tpid = new PIDF(tP, tD);
     public static double rP = 0.01, rD = 0.001;
     private final PIDF rpid = new PIDF(rP, rD);
+
+    public static Alliance alliance = Alliance.RED;
 
     public Robot (HardwareMap map) {
         //Subsystems

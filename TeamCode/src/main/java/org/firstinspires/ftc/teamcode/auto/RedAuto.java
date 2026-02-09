@@ -9,8 +9,8 @@ import org.firstinspires.ftc.teamcode.subsystems.Turret;
 public class RedAuto extends OpMode {
     @Override
     public void init() {
-        Turret.GOAL_X = 144.0;
-        Turret.GOAL_Y = 144.0;
+        Turret.GOAL_X = -72.0;
+        Turret.GOAL_Y = 72.0;
     }
 
     @Override
