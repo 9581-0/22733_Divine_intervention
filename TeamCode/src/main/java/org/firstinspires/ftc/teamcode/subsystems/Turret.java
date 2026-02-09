@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.util.PIDF;
 import org.firstinspires.ftc.teamcode.util.drivers.GoBildaPinpointDriver;
 
 public class Turret {
-    public static final double GEAR_RATIO = 80/30*37/112, SERVO_TO_ANGLE = 300;
+    public static final double GEAR_RATIO = (double) 80 /30* (double) 37/112, SERVO_TO_ANGLE = 216/255.0*355;
     public static double GOAL_X = 0.0, GOAL_Y = 0.0;
 
     private final Servo LServo, RServo;
@@ -67,4 +67,9 @@ public class Turret {
 
     public void startTracking(){tracking = true;}
     public void stopTracking(){tracking = false;}
+
+    public void setHalf() {
+        tracking = false;
+        setPos(0.5);
+    }
 }

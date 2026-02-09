@@ -245,7 +245,7 @@ public class SwerveDrive {
             double rawDeg = Math.toDegrees(odo.getHeading(AngleUnit.RADIANS));
             imuOffset = rawDeg * SwerveTeleOpConfig.IMU_POLARITY - SwerveTeleOpConfig.HEADING_FRAME_OFFSET_DEG;
         }
-        headingTarget = 0;
+        headingTarget = Math.PI;
         lastHeadingError = 0;
         headingDt.reset();
         headingReset.reset();
