@@ -23,29 +23,34 @@ public class Turret {
     }
 
 
-     public void update(Pose2d currentPosition){
-         if (tracking) {
-             double currentX = currentPosition.getX();
-             double currentY = currentPosition.getY();
-             double currentH = currentPosition.getHeading();
+    public void update(Pose2d currentPosition) {
+        if (!tracking) return;
 
-             double angleToGoal = Math.atan2(GOAL_X - currentX, GOAL_Y - currentY) + Math.PI/2;
+        double dx = GOAL_X - currentPosition.getX();
+        double dy = GOAL_Y - currentPosition.getY();
 
-             setPos(clamp((angleToGoal - currentH) / ( GEAR_RATIO) + 0.5, 1));
-         }
-     }
+        double angleToGoal = Math.atan2(dy, dx);
+        double error = angleWrap(angleToGoal - currentPosition.getHeading());
 
-     public double clamp(double t, double range) {
-        if(t > range) {
-            return range;
-        }
-        else if(t < -range) {
-            return -range;
-        }
-        return t;
-     }
+        double SERVO_RANGE_RAD = Math.toRadians(270);
+        double servoDelta = (error  / GEAR_RATIO);
 
-     public void sotm() {
+        double pos = clamp(0.5 + servoDelta);
+        setPos(pos);
+    }
+
+    public double clamp(double v) {
+        return Math.max(0.0, Math.min(1.0, v));
+    }
+
+
+    private double angleWrap(double a) {
+        while (a > Math.PI) a -= 2 * Math.PI;
+        while (a < -Math.PI) a += 2 * Math.PI;
+        return a;
+    }
+
+    public void sotm() {
 
      }
 

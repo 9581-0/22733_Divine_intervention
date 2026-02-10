@@ -28,7 +28,7 @@ public class TestTele extends LinearOpMode{
         Turret.GOAL_X = -72.0;
 
         robot.init();
-        robot.setPose(new Pose2d(72.0, 72.0, Math.PI));
+        robot.setPose(new Pose2d(72.0, 72.0, 0.0));
 
         robot.updateTelemetry(telemetry);
 
@@ -77,8 +77,8 @@ public class TestTele extends LinearOpMode{
                 Turret.tracking = !Turret.tracking;
             }
 
-            if(gamepad1.startWasPressed()) {
-                robot.setPose(new Pose2d(72.0, 72.0, Math.PI));
+            if(gamepad1.start) {
+                robot.setPose(new Pose2d(72.0, 72.0, 0.0));
             }
 
             robot.update();
