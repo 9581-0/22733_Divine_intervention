@@ -22,8 +22,8 @@ public class ShooterTester extends OpMode {
 
     public static double hoodPosition = 30.0;
 
-    public static BasicFeedforwardParameters ff = new BasicFeedforwardParameters(0.0,0.0,0.0);
-    public static PIDCoefficients pids = new PIDCoefficients(0.0,0.0,0.0);
+    public static BasicFeedforwardParameters ff = new BasicFeedforwardParameters(1/2400.0, 0.0, 0.05);
+    public static PIDCoefficients pids = new PIDCoefficients(0.00003, 0.0, 0.0);
 
     private final ControlSystem cS = ControlSystem.builder()
             .basicFF(ff)
