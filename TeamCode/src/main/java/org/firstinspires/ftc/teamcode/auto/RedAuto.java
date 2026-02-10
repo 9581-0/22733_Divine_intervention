@@ -10,7 +10,7 @@ public class RedAuto extends OpMode {
     @Override
     public void init() {
         Turret.GOAL_X = -72.0;
-        Turret.GOAL_Y = 72.0;
+        Turret.GOAL_Y = -72.0;
     }
 
     @Override

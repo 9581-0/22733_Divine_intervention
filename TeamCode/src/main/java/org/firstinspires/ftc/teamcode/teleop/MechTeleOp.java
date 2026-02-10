@@ -26,7 +26,10 @@ public class MechTeleOp extends LinearOpMode{
 
         robot.init();
         robot.setPose(Robot.pose);
-        robot.updateGoal(goal);
+
+        Turret.GOAL_X = -72.0;
+        Turret.GOAL_Y = 72.0;
+
         robot.updateTelemetry(telemetry);
 
         waitForStart();
