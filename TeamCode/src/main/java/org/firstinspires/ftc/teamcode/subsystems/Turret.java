@@ -32,7 +32,6 @@ public class Turret {
         double angleToGoal = Math.atan2(dy, dx);
         double error = angleWrap(angleToGoal - currentPosition.getHeading());
 
-        double SERVO_RANGE_RAD = Math.toRadians(270);
         double servoDelta = (error  / GEAR_RATIO);
 
         double pos = clamp(0.5 + servoDelta);

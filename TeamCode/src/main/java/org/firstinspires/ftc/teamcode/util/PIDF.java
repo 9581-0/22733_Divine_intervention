@@ -28,7 +28,6 @@ public class PIDF {
     public PIDF (Supplier<Double> kp, Supplier<Double> kd, Supplier<Double> kv) {
         this(kp, kd, kv, 0, 0);
     }
-
     public PIDF (double kp, double kd, Supplier<Double> kV) {
         this(() -> kp, () -> kd, kV, 0, 0);
     }
