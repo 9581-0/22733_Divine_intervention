@@ -18,6 +18,7 @@ public class TestTele extends LinearOpMode{
 
     double driveScale = SwerveTeleOpConfig.DRIVE_SPEED_SCALAR;
     double rotScale = SwerveTeleOpConfig.ROTATION_SPEED_SCALAR;
+    double nanana = 0.5;
 
 
     @Override
@@ -75,6 +76,14 @@ public class TestTele extends LinearOpMode{
 
             if(gamepad1.left_stick_button) {
                 Turret.tracking = !Turret.tracking;
+            }
+
+            if (gamepad1.dpad_right){
+                nanana += 0.01;
+                robot.turret.setPos(nanana);
+            } else if (gamepad1.dpad_left){
+                nanana -= 0.01;
+                robot.turret.setPos(nanana);
             }
 
             if(gamepad1.start) {
