@@ -79,10 +79,10 @@ public class TestTele extends LinearOpMode{
             }
 
             if (gamepad1.dpad_right){
-                nanana += 0.01;
+                nanana = Math.min(1, nanana + 0.01);
                 robot.turret.setPosition(nanana);
             } else if (gamepad1.dpad_left){
-                nanana -= 0.01;
+                nanana = Math.max(0, nanana - 0.01);
                 robot.turret.setPosition(nanana);
             }
 
