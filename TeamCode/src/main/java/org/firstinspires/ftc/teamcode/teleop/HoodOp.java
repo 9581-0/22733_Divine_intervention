@@ -2,29 +2,30 @@ package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.subsystems.Hood;
-import org.firstinspires.ftc.teamcode.subsystems.Robot;
-import org.firstinspires.ftc.teamcode.subsystems.Turret;
-
-
-@TeleOp(name="hood test", group="drugs are not healthy")
+@TeleOp(name = "Zero Hood Servo", group = "Setup")
 public class HoodOp extends LinearOpMode {
+
+    private Servo hood;
+
     @Override
     public void runOpMode() {
-        Hood hood;
+        // Initialize the hardware variables.
+        // The string "hood" must match the name in your Robot Configuration.
+        hood = hardwareMap.get(Servo.class, "hood");
 
-        hood = new Hood(hardwareMap);
+        telemetry.addData("Status", "Initialized. Press Play to zero hood.");
+        telemetry.update();
 
         waitForStart();
 
         while (opModeIsActive()) {
+            // Send the command to move to position 0
+            if (gamepad1.a) {hood.setPosition(0.0);}
 
-            if (gamepad1.a) {
-                hood.setPosition(0);
-            }
-
-            telemetry.addData("hoodposition",hood.getAngle());
+            telemetry.addData("Servo Position", hood.getPosition());
+            telemetry.addData("Status", "Running - Forced to 0");
             telemetry.update();
         }
     }
