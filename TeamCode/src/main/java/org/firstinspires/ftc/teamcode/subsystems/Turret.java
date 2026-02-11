@@ -16,7 +16,7 @@ public class Turret {
 
     private final Servo LServo, RServo;
     public double target = 0.5;
-    public static boolean tracking = false;
+    public static boolean tracking = true;
 
     public Turret (HardwareMap map) {
         LServo = map.get(Servo.class, "TurretServoL");
