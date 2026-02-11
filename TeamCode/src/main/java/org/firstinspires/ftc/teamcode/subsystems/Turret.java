@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.util.Pose2d;
 
 public class Turret {
-    public static final double GEAR_RATIO = (90.0 / 20.0) * (37.0 / 112.0);
+    public static final double GEAR_RATIO = (67.0 / 18.0) * (37.0 / 112.0);
 
     public static final double SERVO_RANGE_RAD = Math.toRadians(355);
 
