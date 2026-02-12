@@ -16,17 +16,17 @@ public class FlywheelPIDFTuner extends OpMode {
     public DcMotorEx flywheelMotor;
 
 
-    public double highVelocity = 1260;
-    public double lowVelocity = 1050;
+    public double highVelocity = -1800;
+    public double lowVelocity = -1500;
 
 
     double curTargetVelocity = highVelocity;
 
 
-    double F = 0;
+    double F = 11;
 
 
-    double P = 0;
+    double P = 170;
 
     double[] stepSizes = {10.0, 1.0, 0.1, 0.001, 0.0001};
 
@@ -34,7 +34,7 @@ public class FlywheelPIDFTuner extends OpMode {
     int stepIndex = 1;
     @Override
     public void init() {
-        flywheelMotor = hardwareMap.get(DcMotorEx.class,"Shooter");
+        flywheelMotor = hardwareMap.get(DcMotorEx.class,"shooter");
         flywheelMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         flywheelMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
