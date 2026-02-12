@@ -14,7 +14,7 @@ public class HoodOp extends LinearOpMode {
         // Initialize the hardware variables.
         // The string "hood" must match the name in your Robot Configuration.
         hood = hardwareMap.get(Servo.class, "hood");
-double pos = 0.3;
+        double pos = 0.3;
         waitForStart();
         while (opModeIsActive()) {
             hood.setPosition(pos);
