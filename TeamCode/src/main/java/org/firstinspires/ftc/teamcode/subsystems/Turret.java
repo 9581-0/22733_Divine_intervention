@@ -74,8 +74,8 @@ public class Turret {
     }
 
     private double angleWrap(double a) {
-        while (a > Math.PI) a -= 2 * Math.PI;
-        while (a < -Math.PI) a += 2 * Math.PI;
+        while (a > Math.PI * GEAR_RATIO) a -= 2 * Math.PI;
+        while (a < -Math.PI * GEAR_RATIO) a += 2 * Math.PI;
         return a;
     }
 
