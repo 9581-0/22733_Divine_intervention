@@ -23,10 +23,10 @@ public class FlywheelPIDFTuner extends OpMode {
     double curTargetVelocity = highVelocity;
 
 
-    double F = 11;
+    double F = 0;
 
 
-    double P = 170;
+    double P = 0;
 
     double[] stepSizes = {10.0, 1.0, 0.1, 0.001, 0.0001};
 
