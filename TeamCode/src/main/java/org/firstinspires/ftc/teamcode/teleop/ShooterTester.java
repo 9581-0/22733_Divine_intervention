@@ -23,7 +23,7 @@ public class ShooterTester extends OpMode {
 
     private MultipleTelemetry t;
 
-    public static double targetVelocity = 0.0;
+    public static double targetVelocity = 2280;
     public static double currentVelocity = 0.0;
 
     public static double hoodPosition = 30.0;

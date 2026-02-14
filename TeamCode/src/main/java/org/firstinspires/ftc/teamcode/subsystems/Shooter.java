@@ -17,7 +17,7 @@ public class Shooter {
     private Turret turret;
     private Pose2d pose, goal;
 
-    public final static double IDLE_VEL = 2280, IDLE_HOOD = 0.5;
+    public final static double IDLE_VEL = 3800, IDLE_HOOD = 0.5;
 
     private boolean requestShot;
  
@@ -52,7 +52,7 @@ public class Shooter {
                     double tAngle = Math.toDegrees(Math.atan2(dy, dx));
                     double offset = tAngle - Math.toDegrees(pose.getHeading());
 
-                    flywheel.setVelocity(2280);
+                    flywheel.setVelocity(3800);
                     hood.setPosition(getHoodFromFlywheel(flywheel.getCurrentVel()));
                 })
                 .setFallbackState("IDLE")

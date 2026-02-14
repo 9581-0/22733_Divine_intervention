@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
  
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -15,13 +16,14 @@ public class Flywheel extends Feature {
     private final static double Tmotor = 20.0, Tshaft = 39.0;
     final private myDcMotorEx motor;
     private VoltageSensor voltage;
-    public static double P = 0.4, D = 0.0, kV = 0.000006;
+    public static double P = 0.01, D = 0.0, kV = 0.000006;
     private Supplier<Double> targetVel = () -> 0.0;
     private final PIDF velPID = new PIDF(P,D, () -> (targetVel.get() * kV));
     private double currentVel, pow;
  
     public Flywheel (HardwareMap map) {
         motor = new myDcMotorEx(map.get(DcMotorEx.class, "shooter"));
+        motor.setDirection(DcMotorSimple.Direction.REVERSE);
         voltage = map.get(VoltageSensor.class, "Control Hub");
  
         velPID.setTolerance(20);
