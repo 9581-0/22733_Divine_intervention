@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.util.PIDF;
 import org.firstinspires.ftc.teamcode.utility.CrServoCaching;
 import org.firstinspires.ftc.teamcode.util.wrappers.Sensorange;
 @Config
-public class Spindexer {
+public class      Spindexer {
 
     /* ================= ENUMS ================= */
 

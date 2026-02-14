@@ -1,8 +1,12 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.util.Pose2d;
+import org.firstinspires.ftc.teamcode.utility.CrServoCaching;
+import org.firstinspires.ftc.teamcode.utility.ServoCaching;
+
 
 public class Turret {
     public static final double GEAR_RATIO = (90 / 20.0) * (37.0 / 112.0);
@@ -11,14 +15,15 @@ public class Turret {
 
     public static double GOAL_X = 0.0, GOAL_Y = 0.0;
 
-    private final Servo LServo, RServo;
+    private final ServoCaching.CachingServo LServo, RServo;
     public double target = 0.5;
     public static boolean tracking = true;
     public static String snitch = "";
 
     public Turret (HardwareMap map) {
-        LServo = map.get(Servo.class, "TurretServoL");
-        RServo = map.get(Servo.class, "TurretServoR");
+        LServo  = new ServoCaching.CachingServo(map.get(Servo.class, "TurretServoL"));
+        RServo = new ServoCaching.CachingServo(map.get(Servo.class, "TurretServoR"));
+
         setPos(0.5); // Initialize to center
     }
 
