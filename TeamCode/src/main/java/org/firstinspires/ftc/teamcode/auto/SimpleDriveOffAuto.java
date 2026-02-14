@@ -10,9 +10,11 @@ import org.firstinspires.ftc.teamcode.subsystems.SwerveDrive;
 public class SimpleDriveOffAuto extends LinearOpMode {
     private static final double DRIVE_SPEED = 0.5;
     private static final double DRIVE_DURATION_SEC = 3.5;
-
+    Robot robot;
     @Override
     public void runOpMode() {
+        robot = new Robot(hardwareMap);
+        robot.init();
         SwerveDrive swerve = new SwerveDrive(telemetry, hardwareMap);
         ElapsedTime timer = new ElapsedTime();
 
@@ -27,7 +29,7 @@ public class SimpleDriveOffAuto extends LinearOpMode {
         timer.reset();
         while (opModeIsActive() && timer.seconds() < DRIVE_DURATION_SEC) {
             swerve.driveWithConfig(0, DRIVE_SPEED, 0);
-            telemetry.addData("Status", "Driving");
+            telemetry.addData("robot pinpoint pose", robot.odo.getPosition());
             telemetry.update();
         }
 
