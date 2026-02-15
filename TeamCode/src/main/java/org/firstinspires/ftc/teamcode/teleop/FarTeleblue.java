@@ -1,15 +1,14 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.subsystems.Robot;
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
 import org.firstinspires.ftc.teamcode.util.Pose2d;
 
-import org.firstinspires.ftc.teamcode.subsystems.Robot;
-
-@TeleOp(name="closetele", group="Human Teleop")
-public class TestTele extends LinearOpMode{
+@TeleOp(name="farteleblue", group="Human Teleop")
+public class FarTeleblue extends LinearOpMode{
     long lastLoopTime = 0;
     Robot robot;
     Pose2d goal = new Pose2d(0, 0);
@@ -26,7 +25,7 @@ public class TestTele extends LinearOpMode{
         robot = new Robot(hardwareMap);
         robot.init();
         robot.turret.setGoalPositions(0, -129);
-        robot.setPose(new Pose2d(-48, -9, 0.0));
+        robot.setPose(new Pose2d(-12, 125, 135));
 
         robot.updateTelemetry(telemetry);
 
